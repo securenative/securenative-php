@@ -2,7 +2,7 @@
 <phpunit colors="true" bootstrap="test/securenative.php">
   <testsuites>
     <testsuite name="Test Suite">
-      <directory>./test</directory>
+      <directory>./tests</directory>
     </testsuite>
   </testsuites>
   <logging>
@@ -10,12 +10,7 @@
   </logging>
   <filter>
       <whitelist processUncoveredFilesFromWhitelist="true">
-          <directory suffix=".php">./lib/securenative</directory>
-          <directory suffix=".php">./lib/RestModel</directory>
-          <exclude>
-            <file>./lib/securenative/CookieStore.php</file>
-            <file>./lib/securenative/CurlTransport.php</file>
-          </exclude>
+            <directory suffix=".php">src</directory>
       </whitelist>
   </filter>
 </phpunit>
