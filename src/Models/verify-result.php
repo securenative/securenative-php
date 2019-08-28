@@ -6,7 +6,7 @@ class VerifyResult
   public $score = 0;
   public $triggers  = array();
 
-  public function __construct($riskLevel, $score = 0, $triggers = array())
+  public function __construct($riskLevel = RiskLevels::LOW, $score = 0, $triggers = array())
   {
     $this->riskLevel = $riskLevel;
     $this->score = $score;

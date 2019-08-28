@@ -2,8 +2,10 @@
 
 class SecureNative
 {
+  const MAX_CUSTOM_PARAMS = 6;
   public $apiKey;
   private $options; 
+  private $eventManager;
 
   public function __construct($apiKey, SecureNativeOptions $secureNativeOptions)
   {
@@ -13,25 +15,40 @@ class SecureNative
 
       $this->apiKey = $apiKey;
       $this->options = $secureNativeOptions;
+      $this->eventManager = new EventManager(apiKey, $this->options);
   }
 
-  public static function track(EventOptions $eventOptions)
+  public function track(Array $attributes)
   {
- 
+    $opts = new EventOptions(json_encode($attributes));
+    if (count($opts->params) > MAX_CUSTOM_PARAMS) {
+      throw new Exception(sprintf('You can only specify maximum of %d params', MAX_CUSTOM_PARAMS));
+    }
+
+    $requestUrl = sprintf('%s/track', $this->options->apiUrl);
+    $event = $this->eventManager->buildEvent(opts);
+    $this->eventManager->sendAsync(event, requestUrl);
   }
 
-  public static function verify(EventOptions $eventOptions)
+  public function verify(Array $attributes)
   {
- 
+    $opts = new EventOptions(json_encode($attributes));
+    $requestUrl = sprintf('%s/verify', $this->options->apiUrl);
+    $event = $this->eventManager->buildEvent(opts);
+    $result = $this->eventManager->sendSync(event, requestUrl);
+    
+    if($result == null){
+      return new VerifyResult();
+    }
+
+    return $result;
   }
 
-  public static function flow($flowId, EventOptions $eventOptions)
+  public function flow($flowId, Array $attributes)
   {
-
+    $opts = new EventOptions(json_encode($attributes));
+    $requestUrl = sprintf('%s/flow/%s', $this->options->apiUrl, $flowId);
+    $event = $this->eventManager->buildEvent(opts);
+    return $this->eventManager->sendSync(event, requestUrl);
   }
 }
-
-
-
-
-

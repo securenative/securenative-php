@@ -56,6 +56,10 @@ abstract class Utils
     return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
   }
 
+  public static function serialize($obj)
+  {
+    return json_decode(json_encode($obj), true);
+  }
 
   public static function decrypt($cipherText, $cipherKey)
   {
