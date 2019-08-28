@@ -1,0 +1,15 @@
+<?php
+
+class VerifyResult
+{
+  public $riskLevel = RiskLevels::LOW;
+  public $score = 0;
+  public $triggers  = array();
+
+  public function __construct($riskLevel, $score = 0, $triggers = array())
+  {
+    $this->riskLevel = $riskLevel;
+    $this->score = $score;
+    $this->triggers = $triggers;
+  }  
+}

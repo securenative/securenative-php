@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit colors="true" bootstrap="test/securenative.php">
+  <testsuites>
+    <testsuite name="Test Suite">
+      <directory>./test</directory>
+    </testsuite>
+  </testsuites>
+  <logging>
+      <log type="coverage-clover" target="build/logs/clover.xml"/>
+  </logging>
+  <filter>
+      <whitelist processUncoveredFilesFromWhitelist="true">
+          <directory suffix=".php">./lib/securenative</directory>
+          <directory suffix=".php">./lib/RestModel</directory>
+          <exclude>
+            <file>./lib/securenative/CookieStore.php</file>
+            <file>./lib/securenative/CurlTransport.php</file>
+          </exclude>
+      </whitelist>
+  </filter>
+</phpunit>
