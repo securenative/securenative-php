@@ -20,6 +20,7 @@ $sn = new SecureNative('YOUR_API_KEY', new SecureNativeOptions());
 
 ## Event tracking
 
+```
 secureNative::track(array(
     'event_type': EventTypes::LOG_IN,
     'ip': '127.0.0.1',
