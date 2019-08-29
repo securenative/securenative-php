@@ -4,7 +4,7 @@
   "type": "library",
   "version": "0.0.1",
   "keywords": [
-    "real-time user account monitoring"
+    "securenative", "sdk", "security","monitoring"
   ],
   "homepage": "https://github.com/securenative/securenative-php",
   "license": "MIT",
