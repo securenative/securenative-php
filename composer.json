@@ -1,7 +1,8 @@
 {
   "name": "securenative/securenative-php",
-  "description": "PHP bindings for securenative",
+  "description": "PHP bindings for SecureNative",
   "type": "library",
+  "version": "0.0.1",
   "keywords": [
     "real-time user account monitoring"
   ],
@@ -9,7 +10,7 @@
   "license": "MIT",
   "authors": [
     {
-      "name": "securenative",
+      "name": "SecureNative",
       "email": "team@securenative.com",
       "homepage": "https://securenative.com",
       "role": "Developer"
