@@ -1,5 +1,7 @@
 <?php
 
+
+
 class User
 {
   public $id;
@@ -42,7 +44,9 @@ class EventOptions
   private function set($data) {
       foreach ($data AS $key => $value) {
           if (is_array($value)) {
-              $sub = new JSONObject;
+//              $sub = new JSONObject;
+              // TODO: Ask Alex what type of object is correct here
+              $sub = new EventOptions;
               $sub->set($value);
               $value = $sub;
           }

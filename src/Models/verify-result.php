@@ -1,5 +1,7 @@
 <?php
 
+
+
 class VerifyResult
 {
   public $riskLevel = RiskLevels::LOW;

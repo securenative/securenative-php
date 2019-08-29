@@ -16,6 +16,7 @@ vendor/
 
 launch.json
 composer.lock
+composer.phar
 
 node_modules/
 dist/

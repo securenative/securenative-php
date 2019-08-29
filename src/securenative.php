@@ -1,8 +1,14 @@
 <?php
 
+//
+
+require "event-manager.php";
+require "Models/event-options.php";
+
+const MAX_CUSTOM_PARAMS = 6;
+
 class SecureNative
 {
-  const MAX_CUSTOM_PARAMS = 6;
   public $apiKey;
   private $options; 
   private $eventManager;
@@ -15,7 +21,7 @@ class SecureNative
 
       $this->apiKey = $apiKey;
       $this->options = $secureNativeOptions;
-      $this->eventManager = new EventManager(apiKey, $this->options);
+      $this->eventManager = new EventManager($apiKey, $this->options);
   }
 
   public function track(Array $attributes)
@@ -26,16 +32,16 @@ class SecureNative
     }
 
     $requestUrl = sprintf('%s/track', $this->options->getApiUrl());
-    $event = $this->eventManager->buildEvent(opts);
-    $this->eventManager->sendAsync(event, requestUrl);
+    $event = $this->eventManager->buildEvent($opts);
+    $this->eventManager->sendAsync($event, $requestUrl);
   }
 
   public function verify(Array $attributes)
   {
     $opts = new EventOptions(json_encode($attributes));
     $requestUrl = sprintf('%s/verify', $this->options->getApiUrl());
-    $event = $this->eventManager->buildEvent(opts);
-    $result = $this->eventManager->sendSync(event, requestUrl);
+    $event = $this->eventManager->buildEvent($opts);
+    $result = $this->eventManager->sendSync($event, $requestUrl);
     
     if($result == null){
       return new VerifyResult();
@@ -48,7 +54,7 @@ class SecureNative
   {
     $opts = new EventOptions(json_encode($attributes));
     $requestUrl = sprintf('%s/flow/%s', $this->options->getApiUrl(), $flowId);
-    $event = $this->eventManager->buildEvent(opts);
-    return $this->eventManager->sendSync(event, requestUrl);
+    $event = $this->eventManager->buildEvent($opts);
+    return $this->eventManager->sendSync($event, $requestUrl);
   }
 }

@@ -1,5 +1,7 @@
 <?php
 
+
+
 abstract class EventTypes
 {
   const LOG_IN = "sn.user.login";

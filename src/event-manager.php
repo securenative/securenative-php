@@ -1,6 +1,11 @@
 <?php
 
-use GuzzleHttp\Psr7;
+
+require "http-client.php";
+require "utils.php";
+require "Models/securenative-event.php";
+
+use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Exception\RequestException;
 
 class EventManager
@@ -21,13 +26,13 @@ class EventManager
   public function buildEvent(EventOptions $opts)
   {
      $cookie = Utils::cookieIdFromRequest() || Utils::securHeaderFromRequest();
-     $cookieDecoded = Utils::decrypt(cookie, $this->apiKey);
-     $clientFP = json_decode(cookieDecoded);
+     $cookieDecoded = Utils::decrypt($cookie, $this->apiKey);
+     $clientFP = json_decode($cookieDecoded);
      $eventType = $opts->eventType || EventTypes::LOG_IN;
 
      $cid = $clientFP['cid'] || '';
      $vid = Utils::generateGuidV4();
-     $fp = clientFP['fp'] || '';
+     $fp = $clientFP['fp'] || '';
      $ip = $opts->ip || Utils::clientIpFromRequest();
      $remoteIP = $opts->remoteIp || Utils::clientIpFromRequest();
      $userAgent =  $opts->userAgent || Utils::userAgentFromRequest();
@@ -56,23 +61,25 @@ class EventManager
       array_shift($$this->eventsQueue);
     }
 
-    $request = new Request('POST', $requestUrl, [], Utils::serialize($event));
+    // TODO: Is json_encode() correct here?
+    $request = new Request('POST', $requestUrl, [], json_encode(Utils::serialize($event)));
+//    $request = new Request('POST', $requestUrl, [], $event);
 
     array_push($this->eventsQueue, $request);
 
-    sendEvents();
+    $this::sendEvents();
   }
 
   private function sendEvents() 
   {
-    for ($i = 0; $i < count($this->eventQueue); $i++) {
-      $request = $this->eventQueue[$i];
+    for ($i = 0; $i < count($this->eventsQueue); $i++) {
+      $request = $this->eventsQueue[$i];
 
       $promise = $this->httpClient->sendAsync($request);
       $promise->then(
         function (ResponseInterface $res) use ($request) {
-          if (($key = array_search($request, $this->eventQueue)) !== false) {
-            unset($this->eventQueue[$key]);
+          if (($key = array_search($request, $this->eventsQueue)) !== false) {
+            unset($this->eventsQueue[$key]);
           }
         },
         function (RequestException $e) {

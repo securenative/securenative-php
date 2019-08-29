@@ -1,16 +1,19 @@
 <?php
 
-use GuzzleHttp\Client as GuzzleClient;
+
+
+use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Uri;
 use Psr\Http\Message\RequestInterface;
  
-class HttpClient extends GuzzleClient
+class HttpClient extends Client
 {
     public function __construct($apiKey, SecureNativeOptions $options)
     {
         $defaultOptions =   [
-          'handler'  => $this->getHandlerStack(),
+            // TODO: Check why handler func doesn't work
+//          'handler'  => $this->getHandlerStack(),
           'base_uri' => $options->getApiUrl(),
           'timeout'  => 2,
           'headers'  => [
@@ -21,7 +24,8 @@ class HttpClient extends GuzzleClient
             ]
         ];
 
-        $eventOptions = array_merge($defaultOptions, $options);
+//        $eventOptions = array_merge($defaultOptions, $options);
+        $eventOptions = $defaultOptions; // TODO: Combine options
         parent::__construct($eventOptions);
     }
 

@@ -1,10 +1,13 @@
 <?php
 
+
+
+const ALGORITHM = "AES-256-CBC";
+const BLOCK_SIZE = 16;
+const AES_KEY_SIZE = 32;
+
 abstract class Utils
 {
-    const ALGORITHM = "AES-256-CBC";
-    const BLOCK_SIZE = 16;
-    const AES_KEY_SIZE = 32;
 
     public static function clientIpFromRequest()
     {
@@ -61,7 +64,7 @@ abstract class Utils
         return json_decode(json_encode($obj), true);
     }
 
-    function decrypt($cipherText, $cipherKey)
+    public static function decrypt($cipherText, $cipherKey)
     {
         $key = mb_convert_encoding(substr($cipherKey, 0, 32), "utf-8");
         $contents = hex2bin($cipherText);
