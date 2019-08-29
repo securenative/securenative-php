@@ -11,7 +11,7 @@ class HttpClient extends GuzzleClient
     {
         $defaultOptions =   [
           'handler'  => $this->getHandlerStack(),
-          'base_uri' => $options->apiUrl,
+          'base_uri' => $options->getApiUrl(),
           'timeout'  => 2,
           'headers'  => [
               'User-Agent'   => 'SecureNative-PHP',

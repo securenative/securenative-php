@@ -17,8 +17,7 @@
   ],
   "autoload": {
     "classmap": [
-      "lib/securenative",
-      "lib/RestModel"
+      "src"
     ]
   },
   "require": {

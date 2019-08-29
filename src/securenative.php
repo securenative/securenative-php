@@ -25,7 +25,7 @@ class SecureNative
       throw new Exception(sprintf('You can only specify maximum of %d params', MAX_CUSTOM_PARAMS));
     }
 
-    $requestUrl = sprintf('%s/track', $this->options->apiUrl);
+    $requestUrl = sprintf('%s/track', $this->options->getApiUrl());
     $event = $this->eventManager->buildEvent(opts);
     $this->eventManager->sendAsync(event, requestUrl);
   }
@@ -33,7 +33,7 @@ class SecureNative
   public function verify(Array $attributes)
   {
     $opts = new EventOptions(json_encode($attributes));
-    $requestUrl = sprintf('%s/verify', $this->options->apiUrl);
+    $requestUrl = sprintf('%s/verify', $this->options->getApiUrl());
     $event = $this->eventManager->buildEvent(opts);
     $result = $this->eventManager->sendSync(event, requestUrl);
     
@@ -47,7 +47,7 @@ class SecureNative
   public function flow($flowId, Array $attributes)
   {
     $opts = new EventOptions(json_encode($attributes));
-    $requestUrl = sprintf('%s/flow/%s', $this->options->apiUrl, $flowId);
+    $requestUrl = sprintf('%s/flow/%s', $this->options->getApiUrl(), $flowId);
     $event = $this->eventManager->buildEvent(opts);
     return $this->eventManager->sendSync(event, requestUrl);
   }

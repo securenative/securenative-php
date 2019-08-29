@@ -13,8 +13,8 @@ class EventManager
   public function __construct($apiKey, SecureNativeOptions $secureNativeOptions)
   {
     $this->apiKey = $apiKey;
-    $this->$options = $secureNativeOptions;
-    $this->httpClient = new HttpClient($this->apiKey, $this->$options);
+    $this->options = $secureNativeOptions;
+    $this->httpClient = new HttpClient($this->apiKey, $this->options);
     $this->eventsQueue = array();
   }
 
@@ -52,7 +52,7 @@ class EventManager
 
   public function sendAsync(SecurenativeEvent $event, $requestUrl)
   {
-    if (count($this->eventsQueue) >= $this->options->maxEvents) {
+    if (count($this->eventsQueue) >= $this->options->getMaxEvents()) {
       array_shift($$this->eventsQueue);
     }
 
@@ -70,7 +70,7 @@ class EventManager
 
       $promise = $this->httpClient->sendAsync($request);
       $promise->then(
-        function (ResponseInterface $res) {
+        function (ResponseInterface $res) use ($request) {
           if (($key = array_search($request, $this->eventQueue)) !== false) {
             unset($this->eventQueue[$key]);
           }
