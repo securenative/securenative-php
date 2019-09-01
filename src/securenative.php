@@ -4,6 +4,8 @@
 
 require "event-manager.php";
 require "Models/event-options.php";
+require "Models/verify-result.php";
+require "Enums/risk-levels.php";
 
 const MAX_CUSTOM_PARAMS = 6;
 

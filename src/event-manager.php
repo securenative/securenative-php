@@ -49,7 +49,7 @@ class EventManager
         try {
             $request = new Request('POST', $requestUrl, [], Utils::serialize($event));
             $response = $this->httpClient->send($request);
-            return json_decode($response > getBody());
+            return json_decode($response->getBody());
         } catch (RequestException $e) {
             return null;
         }
@@ -67,7 +67,11 @@ class EventManager
 
         array_push($this->eventsQueue, $request);
 
-        $this::sendEvents();
+        try {
+            $this::sendEvents();
+        } catch (Exception $e) {
+            return;
+        }
     }
 
     private function sendEvents()
