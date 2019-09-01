@@ -3,6 +3,7 @@
 //
 
 require "event-manager.php";
+require "middleware.php";
 require "Models/event-options.php";
 require "Models/verify-result.php";
 require "Enums/risk-levels.php";
@@ -14,6 +15,7 @@ class SecureNative
   private static $apiKey;
   private static $options;
   private static $eventManager;
+  private static $middleware;
 
   public static function init($apiKey, SecureNativeOptions $secureNativeOptions)
   {
@@ -24,6 +26,7 @@ class SecureNative
       self::$apiKey = $apiKey;
       self::$options = $secureNativeOptions;
       self::$eventManager = new EventManager($apiKey, self::$options);
+      self::$middleware = new Middleware($apiKey);
   }
 
   public static function track(Array $attributes)

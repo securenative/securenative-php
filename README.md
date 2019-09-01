@@ -40,5 +40,11 @@ $sn->track(array(
         'id' => '12345'
     ]
 ));
-    
+
+
+middleware:
+
+$body = file_get_contents('php://input');
+$sn->middleware->verifySignature($_SERVER, $body)
+
 ```
