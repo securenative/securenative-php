@@ -1,6 +1,6 @@
 <?php
 
-const SIGNATURE_KEY = 'x-securenative';
+const SIGNATURE_KEY = 'HTTTP_X_SECURENATIVE';
 
 class Middleware
 {
