@@ -1,7 +1,5 @@
 <?php
 
-
-
 const ALGORITHM = "AES-256-CBC";
 const BLOCK_SIZE = 16;
 const AES_KEY_SIZE = 32;

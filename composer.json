@@ -17,9 +17,9 @@
     }
   ],
   "autoload": {
-    "psr-4": {
-      "SNative\\": "src"
-    }
+    "classmap": [
+      "src/"
+    ]
   },
   "require": {
     "php": ">=7.2.0",

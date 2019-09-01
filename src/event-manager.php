@@ -1,10 +1,5 @@
 <?php
 
-
-require "http-client.php";
-require "utils.php";
-require "Models/securenative-event.php";
-
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Exception\RequestException;
 

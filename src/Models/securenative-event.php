@@ -1,7 +1,5 @@
 <?php
 
-
-
 class SecurenativeEvent
 {
   public $eventType;

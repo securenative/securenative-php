@@ -2,12 +2,6 @@
 
 //
 
-require "event-manager.php";
-require "middleware.php";
-require "Models/event-options.php";
-require "Models/verify-result.php";
-require "Enums/risk-levels.php";
-
 const MAX_CUSTOM_PARAMS = 6;
 
 class SecureNative
