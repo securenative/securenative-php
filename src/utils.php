@@ -61,7 +61,7 @@ abstract class Utils
 
     public static function serialize($obj)
     {
-        return json_decode(json_encode($obj), true);
+        return json_encode($obj);
     }
 
     public static function decrypt($cipherText, $cipherKey)
@@ -76,7 +76,7 @@ abstract class Utils
             return $decrypted;
         } else {
             echo openssl_error_string();
-            return false;
+            return "";
         }
     }
 }
