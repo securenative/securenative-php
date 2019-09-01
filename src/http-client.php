@@ -12,10 +12,9 @@ class HttpClient extends Client
     public function __construct($apiKey, SecureNativeOptions $options)
     {
         $defaultOptions =   [
-            // TODO: Check why handler func doesn't work
-//          'handler'  => $this->getHandlerStack(),
+          'handler'  => $this->getHandlerStack(),
           'base_uri' => $options->getApiUrl(),
-          'timeout'  => 2,
+          'timeout'  => $options->getTimeout() / 1000,
           'headers'  => [
               'User-Agent'   => 'SecureNative-PHP',
               'SN-Version'=> '1.0.0',
@@ -33,8 +32,10 @@ class HttpClient extends Client
     {
         $handlerStack = HandlerStack::create($this->getHandler());
 
-        $this->configureHandlerStack($handlerStack);
-
         return $handlerStack;
+    }
+
+    protected function getHandler() {
+        return null;
     }
 }
