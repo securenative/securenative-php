@@ -11,39 +11,39 @@ const MAX_CUSTOM_PARAMS = 6;
 
 class SecureNative
 {
-  public $apiKey;
-  private $options; 
-  private $eventManager;
+  private static $apiKey;
+  private static $options;
+  private static $eventManager;
 
-  public function __construct($apiKey, SecureNativeOptions $secureNativeOptions)
+  public static function init($apiKey, SecureNativeOptions $secureNativeOptions)
   {
       if ($apiKey == '') {
         throw new Exception('You must pass your SecureNative api key');
       }
 
-      $this->apiKey = $apiKey;
-      $this->options = $secureNativeOptions;
-      $this->eventManager = new EventManager($apiKey, $this->options);
+      self::$apiKey = $apiKey;
+      self::$options = $secureNativeOptions;
+      self::$eventManager = new EventManager($apiKey, self::$options);
   }
 
-  public function track(Array $attributes)
+  public static function track(Array $attributes)
   {
     $opts = new EventOptions(json_encode($attributes));
     if (count($opts->params) > MAX_CUSTOM_PARAMS) {
       throw new Exception(sprintf('You can only specify maximum of %d params', MAX_CUSTOM_PARAMS));
     }
 
-    $requestUrl = sprintf('%s/track', $this->options->getApiUrl());
-    $event = $this->eventManager->buildEvent($opts);
-    $this->eventManager->sendAsync($event, $requestUrl);
+    $requestUrl = sprintf('%s/track', self::$options->getApiUrl());
+    $event = self::$eventManager->buildEvent($opts);
+    self::$eventManager->sendAsync($event, $requestUrl);
   }
 
-  public function verify(Array $attributes)
+  public static function verify(Array $attributes)
   {
     $opts = new EventOptions(json_encode($attributes));
-    $requestUrl = sprintf('%s/verify', $this->options->getApiUrl());
-    $event = $this->eventManager->buildEvent($opts);
-    $result = $this->eventManager->sendSync($event, $requestUrl);
+    $requestUrl = sprintf('%s/verify', self::$options->getApiUrl());
+    $event = self::$eventManager->buildEvent($opts);
+    $result = self::$eventManager->sendSync($event, $requestUrl);
     
     if($result == null){
       return new VerifyResult();
@@ -52,11 +52,11 @@ class SecureNative
     return $result;
   }
 
-  public function flow($flowId, Array $attributes)
+  public static function flow($flowId, Array $attributes)
   {
     $opts = new EventOptions(json_encode($attributes));
-    $requestUrl = sprintf('%s/flow/%s', $this->options->getApiUrl(), $flowId);
-    $event = $this->eventManager->buildEvent($opts);
-    return $this->eventManager->sendSync($event, $requestUrl);
+    $requestUrl = sprintf('%s/flow/%s', self::$options->getApiUrl(), $flowId);
+    $event = self::$eventManager->buildEvent($opts);
+    return self::$eventManager->sendSync($event, $requestUrl);
   }
 }
