@@ -4,17 +4,19 @@ const SIGNATURE_KEY = 'x-securenative';
 
 class Middleware
 {
-  private $apiKey;
+    private $apiKey;
 
-  public function __construct($apiKey)
-  {
-      $this->apiKey = $apiKey;
-  }
+    public function __construct($apiKey)
+    {
+        $this->apiKey = $apiKey;
+    }
 
-  public function verifySignature($headers, $body)
-  {
-     $signature = headers[SIGNATURE_KEY] ? headers[SIGNATURE_KEY] : "";
-     $comparison_signature = hash_hmac('sha512', Utils::serialize($body), $this->apiKey, true);
-     return hash_equals($signature, $comparison_signature);
-  }
+    public function verifySignature()
+    {
+        $headers = $_SERVER;
+        $body = file_get_contents("php://input");
+        $signature = isset($headers[SIGNATURE_KEY]) ? $headers[SIGNATURE_KEY] : "";
+        $comparison_signature = bin2hex(hash_hmac('sha512', $body, $this->apiKey, true));
+        return hash_equals($signature, $comparison_signature);
+    }
 }

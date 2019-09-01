@@ -1,25 +1,21 @@
 <?php
 
-
-
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Psr7\Uri;
-use Psr\Http\Message\RequestInterface;
- 
+
 class HttpClient extends Client
 {
     public function __construct($apiKey, SecureNativeOptions $options)
     {
-        $defaultOptions =   [
-          'handler'  => $this->getHandlerStack(),
-          'base_uri' => $options->getApiUrl(),
-          'timeout'  => $options->getTimeout() / 1000,
-          'headers'  => [
-              'User-Agent'   => 'SecureNative-PHP',
-              'SN-Version'=> '1.0.0',
-              'Authorization' => $apiKey,
-              'Content-Type' => 'application/json',
+        $defaultOptions = [
+            'handler' => $this->getHandlerStack(),
+            'base_uri' => $options->getApiUrl(),
+            'timeout' => $options->getTimeout() / 1000,
+            'headers' => [
+                'User-Agent' => 'SecureNative-PHP',
+                'SN-Version' => '1.0.0',
+                'Authorization' => $apiKey,
+                'Content-Type' => 'application/json',
             ]
         ];
 
@@ -35,7 +31,8 @@ class HttpClient extends Client
         return $handlerStack;
     }
 
-    protected function getHandler() {
+    protected function getHandler()
+    {
         return null;
     }
 }
