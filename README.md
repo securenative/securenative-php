@@ -6,7 +6,7 @@
 
 ```php
 
-$sn = new SecureNative('YOUR_API_KEY', new SecureNativeOptions());
+SecureNative::init($API_KEY, new SecureNativeOptions());
 ```
 
 | Option | Type | Optional | Default Value | Description |
@@ -21,30 +21,34 @@ $sn = new SecureNative('YOUR_API_KEY', new SecureNativeOptions());
 ## Event tracking
 
 ```
-$sn->track(array(
-    'event_type' => EventTypes::LOG_IN,
-    'ip' => '127.0.0.1',
-    'userAgent' => 'Mozilla/5.0 (iPad; U; CPU OS 3_2_1 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Mobile/7B405',
+SecureNative::track(array(
+    'eventType' => EventTypes::LOG_IN,
+    'ip' => '137.74.169.241',
+    'userAgent' => 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)	',
     'user' => (object)[
-        'id' => '12345'
+        'id' => '556595',
+        'name' => '',
+        'email' => 'test@test.com'
     ]
 ));
 
 or
 
-$sn->track(array(
-    EventOptions::EVENT_EVENT_TYPE => EventTypes::LOG_IN,
-    EventOptions::EVENT_IP => '127.0.0.1',
-    EventOptions::USER_AGENT => 'Mozilla/5.0 (iPad; U; CPU OS 3_2_1 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Mobile/7B405',
-    EventOptions::USER=> (object)[
-        'id' => '12345'
+$ver = SecureNative::verify(array(
+    'eventType' => EventTypes::VERIFY,
+    'ip' => '103.234.220.197',
+    'userAgent' => 'Mozilla/5.0 (iPad; U; CPU OS 3_2_1 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Mobile/7B405',
+    'user' => (object)[
+        'id' => '12345',
+        'name' => '',
+        'email' => 'amit@phptest.com'
     ]
 ));
+```
 
+Middleware:
 
-middleware:
-
-$body = file_get_contents('php://input');
-$sn->middleware->verifySignature($_SERVER, $body)
+```php
+$res = SecureNative::getMiddleware()->verifySignature();
 
 ```
