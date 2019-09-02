@@ -2,7 +2,6 @@
   "name": "securenative/securenative-php",
   "description": "PHP bindings for SecureNative",
   "type": "library",
-  "version": "0.0.2",
   "keywords": [
     "securenative", "sdk", "security","monitoring"
   ],
