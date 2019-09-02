@@ -59,7 +59,7 @@ class EventOptions
         if (isset($params)) {
             for ($i = 1; $i <= self::EVENT_PARAMS_COUNT; $i++) {
                 // Map param 1 - COUNT if value exists in JSON
-                $mappedParams[self::EVENT_PARAMS_ATTR . $i] = isset($params[self::EVENT_PARAMS_ATTR . $i]) ? $params[self::EVENT_PARAMS_ATTR . $i] : null;
+                $mappedParams[self::EVENT_PARAMS_ATTR . $i] = isset($params[self::EVENT_PARAMS_ATTR . $i]) ? $params[self::EVENT_PARAMS_ATTR . $i] : '';
             }
         }
 
