@@ -38,7 +38,11 @@ class EventManager
         $device = $opts->device;
         $params = $opts->params;
 
-        return new SecurenativeEvent($eventType, $cid, $vid, $fp, $ip, $remoteIP, $userAgent, $user, $ts, $device, $params);
+        $event = new SecurenativeEvent($eventType, $cid, $vid, $fp, $ip, $remoteIP, $userAgent, $user, $ts, $device, $params);
+
+        Logger::debug('Created event', $event);
+
+        return $event;
     }
 
     public function sendSync(SecurenativeEvent $event, $requestUrl)
@@ -46,8 +50,11 @@ class EventManager
         try {
             $request = new Request('POST', $requestUrl, [], Utils::serialize($event));
             $response = $this->httpClient->send($request);
-            return json_decode($response->getBody());
+            $body = $response->getBody();
+            Logger::debug('Successfully sent event', $event);
+            return json_decode($body);
         } catch (RequestException $e) {
+            Logger::debug('Failed to send event', $e->getMessage());
             return null;
         }
     }
@@ -58,15 +65,15 @@ class EventManager
             array_shift($$this->eventsQueue);
         }
 
-        // TODO: Is json_encode() correct here?
         $request = new Request('POST', $requestUrl, [], Utils::serialize($event));
-//    $request = new Request('POST', $requestUrl, [], $event);
 
         array_push($this->eventsQueue, $request);
+        Logger::debug("Added event to queue", $event);
 
         try {
             $this::sendEvents();
         } catch (Exception $e) {
+            Logger::debug("Failed to send queue events", $e->getMessage());
             return;
         }
     }
@@ -82,7 +89,7 @@ class EventManager
                     unset($this->eventsQueue[$key]);
                 }
             }, function (RequestException $e) {
-                echo $e->getMessage() . "\n";
+                Logger::debug("Failed to send event request", $e->getMessage());
             });
             $promise->wait();
         }

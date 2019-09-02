@@ -9,7 +9,7 @@ class SecureNativeOptions
   private $maxEvents = 1000;
   private $timeout = 1500;
   private $autoSend = true;
-  private $debugMode = true;
+  private $debugMode = false;
 
   public function getApiUrl()
   {

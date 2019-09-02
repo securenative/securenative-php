@@ -18,6 +18,8 @@ class SecureNative
             throw new Exception('You must pass your SecureNative api key');
         }
 
+        Logger::init($secureNativeOptions);
+
         self::$apiKey = $apiKey;
         self::$options = $secureNativeOptions;
         self::$eventManager = new EventManager($apiKey, self::$options);

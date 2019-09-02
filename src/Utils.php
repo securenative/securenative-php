@@ -75,7 +75,7 @@ abstract class Utils
         if ($decrypted = openssl_decrypt($textBytes, ALGORITHM, $key, true, $iv)) {
             return $decrypted;
         } else {
-            echo openssl_error_string();
+            Logger::debug("Decrypt error", openssl_error_string());
             return "";
         }
     }
