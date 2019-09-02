@@ -43,6 +43,11 @@ SecureNative::track(array(
         'id' => '556595',
         'name' => '',
         'email' => 'test@test.com'
+    ],
+    // Custom params, key-value array `param_{1-6}`
+    'params' => [
+        "param_1" => "test",
+        "param_2" => "custom param 2"
     ]
 ));
 

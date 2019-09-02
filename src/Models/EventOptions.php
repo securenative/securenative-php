@@ -14,6 +14,8 @@ class EventOptions
     const EVENT_USER_EMAIL = 'email';
     const EVENT_DEVICE = 'device';
     const EVENT_PARAMS = 'params';
+    const EVENT_PARAMS_ATTR = 'param_';
+    const EVENT_PARAMS_COUNT = 6;
 
     public $ip;
     public $userAgent;
@@ -42,20 +44,22 @@ class EventOptions
         $this->userAgent = isset($data[self::EVENT_USER_AGENT]) ? $data[self::EVENT_USER_AGENT] : null;
         $this->eventType = isset($data[self::EVENT_EVENT_TYPE]) ? $data[self::EVENT_EVENT_TYPE] : null;
         $this->remoteIp = isset($data[self::EVENT_REMOTE_IP]) ? $data[self::EVENT_REMOTE_IP] : null;
-        $this->params = isset($data[self::EVENT_PARAMS]) ? $data[self::EVENT_PARAMS] : array();
+
+        if (isset($data[self::EVENT_PARAMS])) {
+            $this->setParams($data[self::EVENT_PARAMS]);
+        }
     }
 
-//    private function set($data)
-//    {
-//        foreach ($data AS $key => $value) {
-//            if (is_array($value)) {
-//                //$sub = new JSONObject;
-//                // TODO: Ask Alex what type of object is correct here
-//                $sub = new EventOptions;
-//                $sub->set($value);
-//                $value = $sub;
-//            }
-//            $this->{$key} = $value;
-//        }
-//    }
+    private function setParams($params) {
+        $mappedParams = array();
+
+        if (isset($params)) {
+            for ($i = 1; $i <= self::EVENT_PARAMS_COUNT; $i++) {
+                // Map param 1 - COUNT if value exists in JSON
+                $mappedParams[self::EVENT_PARAMS_ATTR.$i] = isset($params[self::EVENT_PARAMS_ATTR.$i]) ? $params[self::EVENT_PARAMS_ATTR.$i] : null;
+            }
+        }
+
+        $this->params = $mappedParams;
+    }
 }
