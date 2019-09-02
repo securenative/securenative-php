@@ -17,7 +17,9 @@
   ],
   "autoload": {
     "classmap": [
-      "src/"
+      "src/",
+      "src/Enums",
+      "src/Models"
     ]
   },
   "require": {
