@@ -51,7 +51,10 @@ class SecureNative
         $result = self::$eventManager->sendSync($event, $requestUrl);
 
         if ($result == null) {
+            Logger::debug("Verify result arrived empty, using default results");
             return new VerifyResult();
+        } else {
+            Logger::debug("Verify result successfuly arrived", $result);
         }
 
         return $result;
