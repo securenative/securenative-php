@@ -2,11 +2,25 @@
 
 ## Installation
 
+```shell script
+$ composer require securenative/securenative-php
+```
+
 ## Configuration
 
+#### Using package
 ```php
+require_once __DIR__ . '/vendor/autoload.php';
 
-SecureNative::init($API_KEY, new SecureNativeOptions());
+use SecureNative\sdk\SecureNative;
+use SecureNative\sdk\SecureNativeOptions;
+use SecureNative\sdk\EventTypes;
+```
+
+#### Initializing SDK
+
+```php
+SecureNative::init("YOUR_API_KEY", new SecureNativeOptions());
 ```
 
 | Option | Type | Optional | Default Value | Description |
@@ -49,6 +63,9 @@ $ver = SecureNative::verify(array(
 Middleware:
 
 ```php
-$res = SecureNative::getMiddleware()->verifySignature();
+$verified = SecureNative::getMiddleware()->verifySignature();
 
+if ($verified) {
+    // Request is trusted (coming from SecureNative) 
+}
 ```
