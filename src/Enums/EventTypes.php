@@ -1,6 +1,6 @@
 <?php
 
-
+namespace SecureNative\sdk;
 
 abstract class EventTypes
 {

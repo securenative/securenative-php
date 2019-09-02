@@ -1,5 +1,7 @@
 <?php
 
+namespace SecureNative\sdk;
+
 class SecurenativeEvent
 {
   public $eventType;

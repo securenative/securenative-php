@@ -1,5 +1,6 @@
 <?php
 
+namespace SecureNative\sdk;
 //
 
 const MAX_CUSTOM_PARAMS = 6;

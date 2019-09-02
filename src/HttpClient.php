@@ -1,5 +1,7 @@
 <?php
 
+namespace SecureNative\sdk;
+
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 

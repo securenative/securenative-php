@@ -1,5 +1,7 @@
 <?php
 
+namespace SecureNative\sdk;
+
 const SIGNATURE_KEY = 'HTTTP_X_SECURENATIVE';
 
 class Middleware

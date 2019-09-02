@@ -1,5 +1,7 @@
 <?php
 
+namespace SecureNative\sdk;
+
 class SecureNativeOptions
 {
   private $apiUrl = 'https://api.securenative.com/collector/api/v1';

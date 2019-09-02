@@ -1,5 +1,7 @@
 <?php
 
+namespace SecureNative\sdk;
+
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Exception\RequestException;
 

@@ -1,5 +1,7 @@
 <?php
 
+namespace SecureNative\sdk;
+
 abstract class RiskLevels
 {
   const LOW = "low";
