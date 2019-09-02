@@ -1,6 +1,11 @@
 # SecureNative PHP
 
-## Installation
+## Requirements
+
+* PHP version >= 7.2
+* Composer
+
+## Installation using composer
 
 ```shell script
 $ composer require securenative/securenative-php
