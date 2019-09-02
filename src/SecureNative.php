@@ -27,6 +27,11 @@ class SecureNative
     public static function track(Array $attributes)
     {
         $opts = new EventOptions(json_encode($attributes));
+
+        if ($attributes == null || count($attributes) == 0) {
+            throw new Exception("Can't send empty attributes");
+        }
+
         if (count($opts->params) > MAX_CUSTOM_PARAMS) {
             throw new Exception(sprintf('You can only specify maximum of %d params', MAX_CUSTOM_PARAMS));
         }
@@ -61,5 +66,13 @@ class SecureNative
     public static function getMiddleware()
     {
         return self::$middleware;
+    }
+
+    /**
+     * @return mixed
+     */
+    public static function getApiKey()
+    {
+        return self::$apiKey;
     }
 }

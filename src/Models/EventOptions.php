@@ -32,13 +32,15 @@ class EventOptions
 
     private function set($data)
     {
-        $user = $data[self::EVENT_USER];
+        if (isset($data[self::EVENT_USER])) {
+            $user = $data[self::EVENT_USER];
 
-        $this->user = new User(
-            isset($user[self::EVENT_USER_ID]) ? $user[self::EVENT_USER_ID] : '',
-            isset($user[self::EVENT_USER_NAME]) ? $user[self::EVENT_USER_NAME] : '',
-            isset($user[self::EVENT_USER_EMAIL]) ? $user[self::EVENT_USER_EMAIL] : ''
-        );
+            $this->user = new User(
+                isset($user[self::EVENT_USER_ID]) ? $user[self::EVENT_USER_ID] : '',
+                isset($user[self::EVENT_USER_NAME]) ? $user[self::EVENT_USER_NAME] : '',
+                isset($user[self::EVENT_USER_EMAIL]) ? $user[self::EVENT_USER_EMAIL] : ''
+            );
+        }
         $this->device = isset($data[self::EVENT_DEVICE]) ? $data[self::EVENT_DEVICE] : null;
         $this->ip = isset($data[self::EVENT_IP]) ? $data[self::EVENT_IP] : null;
         $this->userAgent = isset($data[self::EVENT_USER_AGENT]) ? $data[self::EVENT_USER_AGENT] : null;
@@ -50,13 +52,14 @@ class EventOptions
         }
     }
 
-    private function setParams($params) {
+    private function setParams($params)
+    {
         $mappedParams = array();
 
         if (isset($params)) {
             for ($i = 1; $i <= self::EVENT_PARAMS_COUNT; $i++) {
                 // Map param 1 - COUNT if value exists in JSON
-                $mappedParams[self::EVENT_PARAMS_ATTR.$i] = isset($params[self::EVENT_PARAMS_ATTR.$i]) ? $params[self::EVENT_PARAMS_ATTR.$i] : null;
+                $mappedParams[self::EVENT_PARAMS_ATTR . $i] = isset($params[self::EVENT_PARAMS_ATTR . $i]) ? $params[self::EVENT_PARAMS_ATTR . $i] : null;
             }
         }
 
