@@ -86,7 +86,7 @@ abstract class Utils
         if ($encrypted = openssl_encrypt($plainText, ALGORITHM, $cipherKey, true, $iv)) {
             return bin2hex($iv) . bin2hex($encrypted);
         } else {
-            Logger::debug("Decrypt error", openssl_error_string());
+            Logger::debug("Encrypt error", openssl_error_string());
             return "";
         }
 
