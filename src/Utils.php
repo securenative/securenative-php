@@ -66,7 +66,7 @@ abstract class Utils
 
     public static function decrypt($cipherText, $cipherKey)
     {
-        $key = mb_convert_encoding(substr($cipherKey, 0, 32), "utf-8");
+        $key = mb_convert_encoding(substr($cipherKey, 0, AES_KEY_SIZE), "utf-8");
         $contents = hex2bin($cipherText);
 
         $iv = substr($contents, 0, BLOCK_SIZE);
@@ -78,5 +78,17 @@ abstract class Utils
             Logger::debug("Decrypt error", openssl_error_string());
             return "";
         }
+    }
+
+    public static function encrypt($plainText, $cipherKey) {
+        $iv = openssl_random_pseudo_bytes(BLOCK_SIZE);
+
+        if ($encrypted = openssl_encrypt($plainText, ALGORITHM, $cipherKey, true, $iv)) {
+            return bin2hex($iv) . bin2hex($encrypted);
+        } else {
+            Logger::debug("Decrypt error", openssl_error_string());
+            return "";
+        }
+
     }
 }
