@@ -20,11 +20,13 @@
       "src/",
       "src/Enums",
       "src/Models"
-    ]
+    ],
+    "files": ["vendor/antecedent/patchwork/Patchwork.php"]
   },
   "require": {
     "php": ">=7.2.0",
-    "guzzlehttp/guzzle": "^6.0"
+    "guzzlehttp/guzzle": "^6.0",
+    "antecedent/patchwork": "~2.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^8",
