@@ -27,9 +27,9 @@ class EventManager
         $clientFP = json_decode($cookieDecoded);
         $eventType = $opts->eventType ? $opts->eventType : EventTypes::LOG_IN;
 
-        $cid = $clientFP['cid'] ? $clientFP['cid'] : '';
+        $cid = $clientFP->cid ? $clientFP->cid : '';
         $vid = Utils::generateGuidV4();
-        $fp = $clientFP['fp'] ? $clientFP['fp'] : '';
+        $fp = $clientFP->fp ? $clientFP->fp : '';
         $ip = $opts->ip ? $opts->ip : Utils::clientIpFromRequest();
         $remoteIP = $opts->remoteIp ? $opts->remoteIp : Utils::clientIpFromRequest();
         $userAgent = $opts->userAgent ? $opts->userAgent : Utils::userAgentFromRequest();

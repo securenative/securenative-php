@@ -2,7 +2,7 @@
 
 namespace SecureNative\sdk;
 
-const SIGNATURE_KEY = 'HTTTP_X_SECURENATIVE';
+const SIGNATURE_KEY = 'HTTP_X_SECURENATIVE';
 
 class Middleware
 {

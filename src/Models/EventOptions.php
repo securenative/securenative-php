@@ -23,7 +23,7 @@ class EventOptions
     public $remoteIp;
     public $user;
     public $device;
-    public $params = array();
+    public $params = null;
 
     public function __construct($json = false)
     {
