@@ -34,7 +34,7 @@ class SecureNative
             throw new Exception("Can't send empty attributes");
         }
 
-        if (count($opts->params) > MAX_CUSTOM_PARAMS) {
+        if (isset($opts->params) && count($opts->params) > MAX_CUSTOM_PARAMS) {
             throw new Exception(sprintf('You can only specify maximum of %d params', MAX_CUSTOM_PARAMS));
         }
 

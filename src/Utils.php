@@ -34,8 +34,8 @@ abstract class Utils
 
     public static function securHeaderFromRequest()
     {
-        if (array_key_exists('HTTTP_X_SECURENATIVE', $_SERVER)) {
-            return $_SERVER['HTTTP_X_SECURENATIVE'];
+        if (array_key_exists('HTTP_X_SECURENATIVE', $_SERVER)) {
+            return $_SERVER['HTTP_X_SECURENATIVE'];
         }
         return '';
     }
