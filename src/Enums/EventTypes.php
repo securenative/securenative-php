@@ -14,11 +14,11 @@ abstract class EventTypes
   
   const SIGN_UP = "sn.user.signup";
   
-  const AUTH_CHALLENGE = "sn.user.auth.challange";
+  const AUTH_CHALLENGE = "sn.user.auth.challenge";
   
-  const AUTH_CHALLENGE_SUCCESS = "sn.user.auth.challange.success";
+  const AUTH_CHALLENGE_SUCCESS = "sn.user.auth.challenge.success";
   
-  const AUTH_CHALLENGE_FAILURE = "sn.user.auth.challange.failure";
+  const AUTH_CHALLENGE_FAILURE = "sn.user.auth.challenge.failure";
   
   const TWO_FACTOR_DISABLE = "sn.user.2fa.disable";
   
