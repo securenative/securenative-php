@@ -23,24 +23,27 @@ class EventManager
 
     public function buildEvent(EventOptions $opts)
     {
-        $cookie = Utils::cookieIdFromRequest() ? Utils::cookieIdFromRequest() : Utils::securHeaderFromRequest();
+        $cookie  = $opts->context->clientToken;
         $cookieDecoded = Utils::decrypt($cookie, $this->apiKey);
-        $clientFP = json_decode($cookieDecoded);
-        $eventType = $opts->eventType ? $opts->eventType : EventTypes::LOG_IN;
+        $clientToken = json_decode($cookieDecoded);
 
-        $cid = $clientFP && $clientFP->cid ? $clientFP->cid : '';
-        $fp = $clientFP && $clientFP->fp ? $clientFP->fp : '';
+        $rid = Utils::generateGuidV4();
+        $eventType = $opts->event ? $opts->event : EventTypes::LOG_IN;
+        $userId = $opts->userId ? $opts->userId : '';
+        $userTraits = $opts->userTraits ? $opts->userTraits : new UserTraits('anonymous');
+        $cid = $clientToken && $clientToken->cid ? $clientToken->cid : '';
+        $vid = $clientToken && $clientToken->vid ? $clientToken->vid : '';
+        $fp = $clientToken && $clientToken->fp ? $clientToken->fp : '';
+        $ip =  $opts->context->ip ? $opts->context->ip : '';
+        $remoteIp =  $opts->context->remoteIp ? $opts->context->remoteIp :  '';
+        $method = $opts->context->method ? $opts->context->method :  '';
+        $url = $opts->context->url ? $opts->context->url :  '';
+        $headers =$opts->context->headers ? $opts->context->headers : null;
+        $request = new Request($cid, $vid, $fp, $ip, $remoteIp, $method, $url, $headers);
+        $properties = $opts->properties;
+        $timestamp = $opts->timestamp ? $opts->timestamp : (new DateTime("now", new DateTimeZone("UTC")))->format(DateTime::ISO8601);
 
-        $vid = Utils::generateGuidV4();
-        $ip = $opts->ip ? $opts->ip : Utils::clientIpFromRequest();
-        $remoteIP = $opts->remoteIp ? $opts->remoteIp : Utils::clientIpFromRequest();
-        $userAgent = $opts->userAgent ? $opts->userAgent : Utils::userAgentFromRequest();
-        $user = $opts->user ? $opts->user : new User('anonymous');
-        $ts = round(microtime(true) * 1000);
-        $device = $opts->device;
-        $params = $opts->params;
-
-        $event = new SecurenativeEvent($eventType, $cid, $vid, $fp, $ip, $remoteIP, $userAgent, $user, $ts, $device, $params);
+        $event = new SecurenativeEvent($rid, $eventType, $userId, $userTraits, $request, $properties, $timestamp);
 
         Logger::debug('Created event', $event);
 

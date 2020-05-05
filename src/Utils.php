@@ -32,6 +32,32 @@ abstract class Utils
         return null;
     }
 
+
+    public static function headersFromRequest()
+    {
+        $headers = array();
+        foreach ($_SERVER as $key => $val) {
+            if (substr($key, 0, 5) == 'HTTP_') {
+                $name = strtolower(substr($key, 5));
+                $headers[$name] = $val;
+            }
+        }
+        return $headers;
+    }
+
+    public static function urlFromRequest()
+    {
+        return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+    }
+
+    public static function methodFromRequest()
+    {
+        if (array_key_exists('REQUEST_METHOD', $_SERVER)) {
+            return $_SERVER['REQUEST_METHOD'];
+        }
+        return '';
+    }
+
     public static function securHeaderFromRequest()
     {
         if (array_key_exists('HTTP_X_SECURENATIVE', $_SERVER)) {

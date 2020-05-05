@@ -14,7 +14,7 @@ class HttpClient extends Client
             'base_uri' => $options->getApiUrl(),
             'timeout' => $options->getTimeout() / 1000,
             'headers' => [
-                'User-Agent' => 'SecureNative-PHP',
+                'UserTraits-Agent' => 'SecureNative-PHP',
                 'SN-Version' => '1.0.0',
                 'Authorization' => $apiKey,
                 'Content-Type' => 'application/json',
