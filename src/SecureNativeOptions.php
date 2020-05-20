@@ -8,7 +8,7 @@ class SecureNativeOptions
     private $apiUrl = 'https://api.securenative.com/collector/api/v1';
     private $interval = 1000;
     private $maxEvents = 1000;
-    private $timeout = 3000;
+    private $timeout = 30000;
     private $autoSend = true;
     private $disable = false;
     private $logLevel = 'fatal';

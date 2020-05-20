@@ -2,7 +2,7 @@
 
 namespace SecureNative\sdk;
 
-class Request
+class RequestContext
 {
     public $cid;
     public $vid;
@@ -46,7 +46,7 @@ class Request
 
     /**
      * @param mixed $cid
-     * @return Request
+     * @return RequestContext
      */
     public function setCid($cid)
     {
@@ -64,7 +64,7 @@ class Request
 
     /**
      * @param mixed $vid
-     * @return Request
+     * @return RequestContext
      */
     public function setVid($vid)
     {
@@ -82,7 +82,7 @@ class Request
 
     /**
      * @param mixed $fp
-     * @return Request
+     * @return RequestContext
      */
     public function setFp($fp)
     {
@@ -100,7 +100,7 @@ class Request
 
     /**
      * @param mixed $ip
-     * @return Request
+     * @return RequestContext
      */
     public function setIp($ip)
     {
@@ -118,7 +118,7 @@ class Request
 
     /**
      * @param mixed $remoteIp
-     * @return Request
+     * @return RequestContext
      */
     public function setRemoteIp($remoteIp)
     {
@@ -136,7 +136,7 @@ class Request
 
     /**
      * @param mixed $method
-     * @return Request
+     * @return RequestContext
      */
     public function setMethod($method)
     {
@@ -154,7 +154,7 @@ class Request
 
     /**
      * @param mixed $url
-     * @return Request
+     * @return RequestContext
      */
     public function setUrl($url)
     {
@@ -172,7 +172,7 @@ class Request
 
     /**
      * @param mixed $headers
-     * @return Request
+     * @return RequestContext
      */
     public function setHeaders($headers)
     {

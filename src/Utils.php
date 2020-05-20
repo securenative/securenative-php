@@ -47,7 +47,11 @@ abstract class Utils
 
     public static function urlFromRequest()
     {
-        return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        if (array_key_exists('HTTPS', $_SERVER)) {
+            return 'http' . (isset($_SERVER['HTTPS']) ? 's' : '') . '://' . "{$_SERVER['HTTP_HOST']}/{$_SERVER['REQUEST_URI']}";
+        }
+
+        return '';
     }
 
     public static function methodFromRequest()

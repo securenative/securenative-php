@@ -2,6 +2,8 @@
 
 namespace SecureNative\sdk;
 
+use DateTime;
+use DateTimeZone;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Exception\RequestException;
 use phpDocumentor\Reflection\Types\Array_;
@@ -39,11 +41,16 @@ class EventManager
         $method = $opts->context->method ? $opts->context->method :  '';
         $url = $opts->context->url ? $opts->context->url :  '';
         $headers =$opts->context->headers ? $opts->context->headers : null;
-        $request = new Request($cid, $vid, $fp, $ip, $remoteIp, $method, $url, $headers);
-        $properties = $opts->properties;
-        $timestamp = $opts->timestamp ? $opts->timestamp : (new DateTime("now", new DateTimeZone("UTC")))->format(DateTime::ISO8601);
 
-        $event = new SecurenativeEvent($rid, $eventType, $userId, $userTraits, $request, $properties, $timestamp);
+        $reqCtx = new RequestContext($cid, $vid, $fp, $ip, $remoteIp, $method, $url, $headers);
+
+        $properties = $opts->properties;
+        $timestamp = null;
+        try {
+            $timestamp = $opts->timestamp ? $opts->timestamp : (new DateTime("now", new DateTimeZone("UTC")))->format(DateTime::ISO8601);
+        } catch (\Exception $e) {}
+
+        $event = new SecurenativeEvent($rid, $eventType, $userId, $userTraits, $reqCtx, $properties, $timestamp);
 
         Logger::debug('Created event', $event);
 
@@ -59,7 +66,7 @@ class EventManager
             Logger::debug('Successfully sent event', $event);
             return json_decode($body);
         } catch (RequestException $e) {
-            Logger::debug('Failed to send event', $e->getMessage());
+            Logger::error('Failed to send event', $e->getMessage());
             return null;
         }
     }
@@ -78,7 +85,7 @@ class EventManager
         try {
             $this::sendEvents();
         } catch (Exception $e) {
-            Logger::debug("Failed to send queue events", $e->getMessage());
+            Logger::error("Failed to send queue events", $e->getMessage());
             return;
         }
     }
@@ -93,10 +100,10 @@ class EventManager
                 if (($key = array_search($request, $this->eventsQueue)) !== false) {
                     unset($this->eventsQueue[$key]);
                 }
-            }, function (RequestException $e) {
-                Logger::debug("Failed to send event request", $e->getMessage());
+            }, function (Exception $e) {
+                Logger::error("Failed to send event request", $e->getMessage());
             });
-            $promise->wait();
+            $promise->wait(false);
         }
     }
 
