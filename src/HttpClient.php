@@ -14,23 +14,20 @@ class HttpClient extends Client
             'base_uri' => $options->getApiUrl(),
             'timeout' => $options->getTimeout() / 1000,
             'headers' => [
-                'UserTraits-Agent' => 'SecureNative-PHP',
+                'User-Agent' => 'SecureNative-PHP',
                 'SN-Version' => '1.0.0',
                 'Authorization' => $apiKey,
                 'Content-Type' => 'application/json',
             ]
         ];
 
-//        $eventOptions = array_merge($defaultOptions, $options);
-        $eventOptions = $defaultOptions; // TODO: Combine options
+        $eventOptions = $defaultOptions;
         parent::__construct($eventOptions);
     }
 
     protected function getHandlerStack()
     {
-        $handlerStack = HandlerStack::create($this->getHandler());
-
-        return $handlerStack;
+        return HandlerStack::create($this->getHandler());
     }
 
     protected function getHandler()
