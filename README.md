@@ -40,7 +40,7 @@ SecureNative::init("YOUR_API_KEY", new SecureNativeOptions());
 ## Event tracking
 
 ```
-$context = SecureNativeContext::fromRequest();
+$context = SecureNative::contextFromContext();
 
 SecureNative::track(array(
     'event' => EventTypes::LOG_IN,
@@ -61,7 +61,7 @@ or
 
 $ver = SecureNative::verify(array(
     'event' => EventTypes::VERIFY,
-    'context' => SecureNativeContext::fromRequest(),
+    'context' => SecureNative::contextFromContext()
     'userTraits' => (object)[
         'name' => 'Your name',
         'email' => 'amit@phptest.com'

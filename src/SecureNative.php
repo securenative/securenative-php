@@ -66,6 +66,10 @@ class SecureNative
         $event = self::$eventManager->buildEvent($opts);
         return self::$eventManager->sendSync($event, $requestUrl);
     }
+    public static function contextFromContext()
+    {
+        return SecureNativeContext::fromRequest();
+    }
 
     public static function getMiddleware()
     {
