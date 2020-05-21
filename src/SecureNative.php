@@ -17,7 +17,6 @@ class SecureNative
         if ($apiKey == '') {
             throw new Exception('You must pass your SecureNative api key');
         }
-
         Logger::init($secureNativeOptions);
 
         self::$apiKey = $apiKey;
@@ -66,6 +65,10 @@ class SecureNative
         $requestUrl = sprintf('%s/flow/%s', self::$options->getApiUrl(), $flowId);
         $event = self::$eventManager->buildEvent($opts);
         return self::$eventManager->sendSync($event, $requestUrl);
+    }
+    public static function contextFromContext()
+    {
+        return SecureNativeContext::fromRequest();
     }
 
     public static function getMiddleware()

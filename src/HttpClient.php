@@ -21,16 +21,13 @@ class HttpClient extends Client
             ]
         ];
 
-//        $eventOptions = array_merge($defaultOptions, $options);
-        $eventOptions = $defaultOptions; // TODO: Combine options
+        $eventOptions = $defaultOptions;
         parent::__construct($eventOptions);
     }
 
     protected function getHandlerStack()
     {
-        $handlerStack = HandlerStack::create($this->getHandler());
-
-        return $handlerStack;
+        return HandlerStack::create($this->getHandler());
     }
 
     protected function getHandler()

@@ -20,6 +20,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 use SecureNative\sdk\SecureNative;
 use SecureNative\sdk\SecureNativeOptions;
 use SecureNative\sdk\EventTypes;
+use SecureNative\sdk\SecureNativeContext;
 ```
 
 #### Initializing SDK
@@ -40,31 +41,30 @@ SecureNative::init("YOUR_API_KEY", new SecureNativeOptions());
 ## Event tracking
 
 ```
+$context = SecureNative::contextFromContext();
+
 SecureNative::track(array(
-    'eventType' => EventTypes::LOG_IN,
-    'ip' => '137.74.169.241',
-    'userAgent' => 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)	',
-    'user' => (object)[
-        'id' => '556595',
-        'name' => '',
+    'event' => EventTypes::LOG_IN,
+    'context' => $context,
+    'userId' => '556595',
+    'userTraits' => (object)[
+        'name' => 'Your name',
         'email' => 'test@test.com'
     ],
-    // Custom params, key-value array `param_{1-6}`
-    'params' => [
-        "param_1" => "test",
-        "param_2" => "custom param 2"
+    // Custom properties
+    'properties' => (object)[
+        "prop1" => "test",
+        "prop2" => 3
     ]
 ));
 
 or
 
 $ver = SecureNative::verify(array(
-    'eventType' => EventTypes::VERIFY,
-    'ip' => '103.234.220.197',
-    'userAgent' => 'Mozilla/5.0 (iPad; U; CPU OS 3_2_1 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Mobile/7B405',
-    'user' => (object)[
-        'id' => '12345',
-        'name' => '',
+    'event' => EventTypes::VERIFY,
+    'context' => SecureNative::contextFromContext()
+    'userTraits' => (object)[
+        'name' => 'Your name',
         'email' => 'amit@phptest.com'
     ]
 ));

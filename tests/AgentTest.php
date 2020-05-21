@@ -1,7 +1,8 @@
 <?php
 
-use SecureNative\sdk\Agent;
+use SecureNative\sdk\EventTypes;
 use SecureNative\sdk\SecureNative;
+use SecureNative\sdk\SecureNativeContext;
 use PHPUnit\Framework\TestCase;
 use SecureNative\sdk\SecureNativeOptions;
 
@@ -18,23 +19,22 @@ final class AgentTest extends TestCase
 
     public function testApiKeyException()
     {
-        $this->assertEquals($this->t1(),1 );
-        Agent::changeClassMethod([$this, 't1'],[$this, 't2'] );
-        $this->assertEquals($this->t1(),2 );
-    }
+        $context = SecureNativeContext::fromRequest();
 
-    public function testGetDependencies(){
-        $dep = Agent::getDependencies("../composer.json");
-        $this->assertTrue(strpos($dep, 'php')==1);
+        SecureNative::track(array(
+            'event' => EventTypes::LOG_IN,
+            'context' => $context,
+            'userId' => '556595',
+            'userTraits' => (object)[
+                'name' => 'Your name',
+                'email' => 'test@test.com'
+            ],
+            // Custom properties
+            'properties' => (object)[
+                "prop1" => "test",
+                "prop2" => 3
+            ]
+        ));
     }
-
-    public function t1(){
-        return 1;
-    }
-
-    public function t2(){
-        return 2;
-    }
-
 
 }
