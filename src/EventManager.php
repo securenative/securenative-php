@@ -45,10 +45,7 @@ class EventManager
         $reqCtx = new RequestContext($cid, $vid, $fp, $ip, $remoteIp, $method, $url, $headers);
 
         $properties = $opts->properties;
-        $timestamp = null;
-        try {
-            $timestamp = $opts->timestamp ? $opts->timestamp : (new DateTime("now", new DateTimeZone("UTC")))->format(DateTime::ISO8601);
-        } catch (\Exception $e) {}
+        $timestamp =  $opts->timestamp ? $opts->timestamp : date('Y-m-d\TH:i:s.Z\Z', time());
 
         $event = new SecurenativeEvent($rid, $eventType, $userId, $userTraits, $reqCtx, $properties, $timestamp);
 

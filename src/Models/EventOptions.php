@@ -43,7 +43,7 @@ class EventOptions
             $this->userTraits = new UserTraits(
                 isset($userTraits[self::EVENT_USER_TRAITS_NAME]) ? $userTraits[self::EVENT_USER_TRAITS_NAME] : '',
                 isset($userTraits[self::EVENT_USER_TRAITS_EMAIL]) ? $userTraits[self::EVENT_USER_TRAITS_EMAIL] : '',
-                isset($userTraits[self::EVENT_USER_TRAITS_CREATED_AT]) ? $userTraits[self::EVENT_USER_TRAITS_CREATED_AT] : ''
+                isset($userTraits[self::EVENT_USER_TRAITS_CREATED_AT]) ? $userTraits[self::EVENT_USER_TRAITS_CREATED_AT] : null
             );
         }
 
@@ -60,11 +60,11 @@ class EventOptions
         }
 
 
-        if (count($data[self::EVENT_PROPERTIES]) > self::MAX_EVENT_PROPERTIES_COUNT) {
+        if (isset($data[self::EVENT_PROPERTIES]) && count($data[self::EVENT_PROPERTIES]) > self::MAX_EVENT_PROPERTIES_COUNT) {
             throw new \Exception('You can only set up to ' . self::MAX_EVENT_PROPERTIES_COUNT . ' custom properties');
         }
 
-        $this->properties = isset($data[self::EVENT_PROPERTIES]) ? $data[self::EVENT_PROPERTIES] : null;
+        $this->properties = isset($data[self::EVENT_PROPERTIES]) && count($data[self::EVENT_PROPERTIES]) > 0 ? $data[self::EVENT_PROPERTIES] : null;
         $this->timestamp = isset($data[self::EVENT_TIMESTAMP]) ? $data[self::EVENT_TIMESTAMP] : null;
     }
 }
