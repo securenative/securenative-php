@@ -20,7 +20,6 @@ require_once __DIR__ . '/vendor/autoload.php';
 use SecureNative\sdk\SecureNative;
 use SecureNative\sdk\SecureNativeOptions;
 use SecureNative\sdk\EventTypes;
-use SecureNative\sdk\SecureNativeContext;
 ```
 
 #### Initializing SDK
