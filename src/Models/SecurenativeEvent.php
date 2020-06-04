@@ -9,7 +9,7 @@ class SecurenativeEvent
   public $userId;
   public $userTraits;
   public $request;
-  public $properties = array();
+  public $properties;
   public $timestamp;
 
     /**
@@ -22,7 +22,7 @@ class SecurenativeEvent
      * @param array $properties
      * @param $timestamp
      */
-    public function __construct($rid, $eventType, $userId, $userTraits, $request, array $properties, $timestamp)
+    public function __construct($rid, $eventType, $userId, $userTraits, $request, $properties, $timestamp)
     {
         $this->rid = $rid;
         $this->eventType = $eventType;
