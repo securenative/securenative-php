@@ -25,7 +25,12 @@ use SecureNative\sdk\EventTypes;
 #### Initializing SDK
 
 ```php
-SecureNative::init("YOUR_API_KEY", new SecureNativeOptions());
+$options =  new SecureNativeOptions();
+
+$options->setMaxEvents(10);
+$options->setLogLevel("error");
+
+SecureNative::init("YOUR_API_KEY", $options);
 ```
 
 | Option | Type | Optional | Default Value | Description |
@@ -40,20 +45,19 @@ SecureNative::init("YOUR_API_KEY", new SecureNativeOptions());
 ## Event tracking
 
 ```
-$context = SecureNative::contextFromContext();
-
 SecureNative::track(array(
     'event' => EventTypes::LOG_IN,
-    'context' => $context,
-    'userId' => '556595',
+    'context' => SecureNative::contextFromContext(),
+    'userId' => '1234',
     'userTraits' => (object)[
-        'name' => 'Your name',
-        'email' => 'test@test.com'
+        'name' => 'Your Name',
+        'email' => 'name@gmail.com'
     ],
     // Custom properties
     'properties' => (object)[
-        "prop1" => "test",
-        "prop2" => 3
+        "prop1" => "CUSTOM_PARAM_VALUE",
+        "prop2" => true,
+        "prop3" => 3
     ]
 ));
 
@@ -61,10 +65,11 @@ or
 
 $ver = SecureNative::verify(array(
     'event' => EventTypes::VERIFY,
+    'userId' => '1234',
     'context' => SecureNative::contextFromContext()
     'userTraits' => (object)[
-        'name' => 'Your name',
-        'email' => 'amit@phptest.com'
+        'name' => 'Your Name',
+        'email' => 'name@gmail.com'
     ]
 ));
 ```
