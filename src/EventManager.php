@@ -25,7 +25,7 @@ class EventManager
 
     public function buildEvent(EventOptions $opts)
     {
-        $cookie  = $opts->context->clientToken;
+        $cookie  = isset($opts->context->clientToken) ? $opts->context->clientToken : "";
         $cookieDecoded = Utils::decrypt($cookie, $this->apiKey);
         $clientToken = json_decode($cookieDecoded);
 
@@ -36,11 +36,11 @@ class EventManager
         $cid = $clientToken && $clientToken->cid ? $clientToken->cid : '';
         $vid = $clientToken && $clientToken->vid ? $clientToken->vid : '';
         $fp = $clientToken && $clientToken->fp ? $clientToken->fp : '';
-        $ip =  $opts->context->ip ? $opts->context->ip : '';
-        $remoteIp =  $opts->context->remoteIp ? $opts->context->remoteIp :  '';
-        $method = $opts->context->method ? $opts->context->method :  '';
-        $url = $opts->context->url ? $opts->context->url :  '';
-        $headers =$opts->context->headers ? $opts->context->headers : null;
+        $ip =  isset($opts->context->ip) ? $opts->context->ip : '';
+        $remoteIp =  isset($opts->context->remoteIp) ? $opts->context->remoteIp :  '';
+        $method = isset($opts->context->method) ? $opts->context->method :  '';
+        $url = isset($opts->context->url) ? $opts->context->url :  '';
+        $headers = isset($opts->context->headers) ? $opts->context->headers : null;
 
         $reqCtx = new RequestContext($cid, $vid, $fp, $ip, $remoteIp, $method, $url, $headers);
 

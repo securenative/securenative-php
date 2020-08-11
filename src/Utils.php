@@ -39,6 +39,7 @@ abstract class Utils
         foreach ($_SERVER as $key => $val) {
             if (substr($key, 0, 5) == 'HTTP_') {
                 $name = strtolower(substr($key, 5));
+                $name = str_replace("_", "-", $name);
                 $headers[$name] = $val;
             }
         }
