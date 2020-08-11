@@ -6,13 +6,13 @@ namespace SecureNative\sdk;
 
 class SecureNativeContext
 {
-    private $clientToken;
-    private $ip;
-    private $remoteIp;
-    private $headers;
-    private $url;
-    private $method;
-    private $body;
+    public $clientToken;
+    public $ip;
+    public $remoteIp;
+    public $headers;
+    public $url;
+    public $method;
+    public $body;
 
     /**
      * SecureNativeContext constructor.

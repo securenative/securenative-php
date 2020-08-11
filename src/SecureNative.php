@@ -15,7 +15,7 @@ class SecureNative
     public static function init($apiKey, SecureNativeOptions $secureNativeOptions)
     {
         if ($apiKey == '') {
-            throw new Exception('You must pass your SecureNative api key');
+            throw new \Exception('You must pass your SecureNative api key');
         }
         Logger::init($secureNativeOptions);
 
