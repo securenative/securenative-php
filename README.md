@@ -46,8 +46,10 @@ SecureNative::init("YOUR_API_KEY", $options);
 ```
 ### Option 2: Initialize via API Key
 
+Initialize using default options.
+
 ```php
-SecureNative::init("YOUR_API_KEY", $options);
+SecureNative::init("YOUR_API_KEY");
 ```
 
 ## Tracking events
