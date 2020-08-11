@@ -95,7 +95,7 @@ SecureNative::track(array(
 
 ```php
 $ver = SecureNative::verify(array(
-        'event' => EventTypes::LOG_IN,
+        'event' => EventTypes::VERIFY,
         'userId' => '27',
         'context' => SecureNativeContext::fromRequest(),
         'userTraits' => (object)[
