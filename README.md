@@ -78,13 +78,18 @@ use SecureNative\sdk\SecureNativeOptions;
 use SecureNative\sdk\EventTypes;
 use SecureNative\sdk\SecureNativeContext;
 
-
-$token = "[SECURED_CLIENT_TOKEN]";
-$ctx = new SecureNativeContext($token, "79.179.88.157", null, (object)["user-agent" => "Mozilla/5.0 (iPad; U; CPU OS 3_2_1 like Mac OS X; en-us"], null, null, null);
+$clientToken = "SECURED_CLIENT_TOKEN"
+$headers = (object)["user-agent" => "Mozilla/5.0 (iPad; U; CPU OS 3_2_1 like Mac OS X; en-us"] // User-Agent header is important to get device information!
+$ip = "127.0.0.1"
+$remoteIp = "127.0.0.1"
+$url = null
+$method = null
+$body = null
+$ctx = new SecureNativeContext($clientToken, $ip, $remoteIp, $headers, $url, $method, $body);
 
 SecureNative::track(array(
     'event' => EventTypes::LOG_IN,
-    'context' => ctx,
+    'context' => $ctx,
     'userId' => '1234',
     'userTraits' => (object)[
         'name' => 'Your Name',
@@ -92,9 +97,9 @@ SecureNative::track(array(
     ],
     // Custom properties
     'properties' => (object)[
-        "prop1" => "CUSTOM_PARAM_VALUE",
-        "prop2" => true,
-        "prop3" => 3
+        "custom_param1" => "CUSTOM_PARAM_VALUE",
+        "custom_param2" => true,
+        "custom_param3" => 3
     ]
 ));
  ```
@@ -117,9 +122,9 @@ SecureNative::track(array(
     ],
     // Custom properties
     'properties' => (object)[
-        "prop1" => "CUSTOM_PARAM_VALUE",
-        "prop2" => true,
-        "prop3" => 3
+        "custom_param1" => "CUSTOM_PARAM_VALUE",
+        "custom_param2" => true,
+        "custom_param3" => 3
     ]
 ));
  ```
