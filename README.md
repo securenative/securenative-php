@@ -166,6 +166,10 @@ $ver = SecureNative::verify(array(
             'email' => 'name@gmail.com'
         ]
 ));
+
+ver.riskLevel    // Low, Medium, High
+ver.score        // Risk score: 0 - 1 (0 - Very Low, 1 - Very High)
+ver.triggers     // ["TOR", "New IP", "New City"]
 ```
 
 ## Webhook signature verification
