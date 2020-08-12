@@ -92,9 +92,9 @@ SecureNative::track(array(
     ],
     // Custom properties
     'properties' => (object)[
-        "prop1" => "CUSTOM_PARAM_VALUE",
-        "prop2" => true,
-        "prop3" => 3
+        "custom_param1" => "CUSTOM_PARAM_VALUE",
+        "custom_param2" => true,
+        "custom_param3" => 3
     ]
 ));
  ```
@@ -117,9 +117,9 @@ SecureNative::track(array(
     ],
     // Custom properties
     'properties' => (object)[
-        "prop1" => "CUSTOM_PARAM_VALUE",
-        "prop2" => true,
-        "prop3" => 3
+        "custom_param1" => "CUSTOM_PARAM_VALUE",
+        "custom_param2" => true,
+        "custom_param3" => 3
     ]
 ));
  ```
