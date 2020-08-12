@@ -51,6 +51,8 @@ SecureNative::init("YOUR_API_KEY", $options);
 ```
 ### Option 2: Initialize via API Key
 
+Initialize using default options.
+
 ```php
 require_once __DIR__ . '/vendor/autoload.php';
 
@@ -153,7 +155,7 @@ use SecureNative\sdk\SecureNativeContext;
 
 
 $ver = SecureNative::verify(array(
-        'event' => EventTypes::LOG_IN,
+        'event' => EventTypes::VERIFY,
         'userId' => '27',
         'context' => SecureNativeContext::fromRequest(),
         'userTraits' => (object)[
