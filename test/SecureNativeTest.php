@@ -9,7 +9,7 @@ use SecureNative\sdk\VerifyResult;
 
 const TEST_API_KEY = 'sample_key';
 
-final class SecureNativeTest extends PHPUnit_Framework_TestCase
+final class SecureNativeTest extends PHPUnit\Framework\TestCase
 {
 
     /**

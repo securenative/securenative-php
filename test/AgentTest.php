@@ -5,7 +5,7 @@ use SecureNative\sdk\SecureNative;
 use SecureNative\sdk\SecureNativeContext;
 use SecureNative\sdk\SecureNativeOptions;
 
-final class AgentTest extends PHPUnit_Framework_TestCase
+final class AgentTest extends PHPUnit\Framework\TestCase
 {
     const TEST_API_KEY = 'sample_key';
     /**
