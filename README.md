@@ -37,6 +37,11 @@ To get your *API KEY*, login to your SecureNative account and go to project sett
 
 ### Option 1: Initialize via ConfigurationBuilder
 ```php
+require_once __DIR__ . '/vendor/autoload.php';
+
+use SecureNative\sdk\SecureNative;
+use SecureNative\sdk\SecureNativeOptions;
+
 $options =  new SecureNativeOptions();
 
 $options->setMaxEvents(10);
@@ -47,7 +52,12 @@ SecureNative::init("YOUR_API_KEY", $options);
 ### Option 2: Initialize via API Key
 
 ```php
-SecureNative::init("YOUR_API_KEY", $options);
+require_once __DIR__ . '/vendor/autoload.php';
+
+use SecureNative\sdk\SecureNative;
+
+
+SecureNative::init("YOUR_API_KEY");
 ```
 
 ## Tracking events
@@ -55,7 +65,43 @@ SecureNative::init("YOUR_API_KEY", $options);
 Once the SDK has been initialized, tracking requests sent through the SDK
 instance.
 
+```php
+require_once __DIR__ . '/vendor/autoload.php';
+
+use SecureNative\sdk\SecureNative;
+use SecureNative\sdk\SecureNativeOptions;
+use SecureNative\sdk\EventTypes;
+use SecureNative\sdk\SecureNativeContext;
+
+
+$token = "[SECURED_CLIENT_TOKEN]";
+$ctx = new SecureNativeContext($token, "79.179.88.157", null, (object)["user-agent" => "Mozilla/5.0 (iPad; U; CPU OS 3_2_1 like Mac OS X; en-us"], null, null, null);
+
+SecureNative::track(array(
+    'event' => EventTypes::LOG_IN,
+    'context' => ctx,
+    'userId' => '1234',
+    'userTraits' => (object)[
+        'name' => 'Your Name',
+        'email' => 'name@gmail.com'
+    ],
+    // Custom properties
+    'properties' => (object)[
+        "prop1" => "CUSTOM_PARAM_VALUE",
+        "prop2" => true,
+        "prop3" => 3
+    ]
+));
+ ```
+
  ```php
+require_once __DIR__ . '/vendor/autoload.php';
+
+use SecureNative\sdk\SecureNative;
+use SecureNative\sdk\EventTypes;
+use SecureNative\sdk\SecureNativeContext;
+
+
 SecureNative::track(array(
     'event' => EventTypes::LOG_IN,
     'context' => SecureNative::contextFromContext(),
@@ -76,6 +122,13 @@ SecureNative::track(array(
 You can also create request context from request:
 
 ```php
+require_once __DIR__ . '/vendor/autoload.php';
+
+use SecureNative\sdk\SecureNative;
+use SecureNative\sdk\EventTypes;
+use SecureNative\sdk\SecureNativeContext;
+
+
 SecureNative::track(array(
     'event' => EventTypes::LOG_IN,
     'context' => SecureNativeContext::fromRequest(),
@@ -92,6 +145,13 @@ SecureNative::track(array(
 **Example**
 
 ```php
+require_once __DIR__ . '/vendor/autoload.php';
+
+use SecureNative\sdk\SecureNative;
+use SecureNative\sdk\EventTypes;
+use SecureNative\sdk\SecureNativeContext;
+
+
 $ver = SecureNative::verify(array(
         'event' => EventTypes::LOG_IN,
         'userId' => '27',
@@ -108,6 +168,11 @@ $ver = SecureNative::verify(array(
 Apply our filter to verify the request is from us, for example:
 
 ```php
+require_once __DIR__ . '/vendor/autoload.php';
+
+use SecureNative\sdk\SecureNative;
+
+
 $verified = SecureNative::getMiddleware()->verifySignature();
 
 if ($verified) {
