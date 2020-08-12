@@ -27,9 +27,8 @@ jobs:
 
       - uses: actions/checkout@v2
       - uses: php-actions/composer@v1
-      - uses: php-actions/phpunit@v9
-        with:
-          configuration: test/phpunit.xml
+      - uses: nanasess/setup-php@master
+        run: php test/AgentTest.php && php test/SecureNativeTest.php
 
       - name: Publish to codecov
         run: bash <(curl -s https://codecov.io/bash)
