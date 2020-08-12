@@ -27,8 +27,7 @@ jobs:
       - uses: nanasess/setup-php@master
 
       - name: Run tests
-#        run: php test/AgentTest.php && php test/SecureNativeTest.php
-        run: pwd
+        run: php test/AgentTest.php && php test/SecureNativeTest.php
 
       - name: Publish to codecov
         run: bash <(curl -s https://codecov.io/bash)
