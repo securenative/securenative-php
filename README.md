@@ -12,6 +12,9 @@
   <a href="https://codecov.io/gh/securenative/securenative-php">
     <img src="https://codecov.io/gh/securenative/securenative-php/branch/master/graph/badge.svg" />
   </a>
+  <a href="https://packagist.org/packages/securenative/securenative-php">
+  <img src="https://img.shields.io/packagist/v/securenative/securenative-php" alt="npm version" height="20">
+    </a>
 </p>
 <p align="center">
   <a href="https://docs.securenative.com">Documentation</a> |
