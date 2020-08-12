@@ -15,19 +15,23 @@ jobs:
         os: [ubuntu-latest]
     steps:
       - name: Notify slack success
-          if: success()
-          id: slack # IMPORTANT: reference this step ID value in future Slack steps
-          env:
-            SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-          uses: voxmedia/github-action-slack-notify-build@v1.1.1
-          with:
-            channel: github-actions
-            status: STARTING
-            color: warning
+        if: success()
+        id: slack # IMPORTANT: reference this step ID value in future Slack steps
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        uses: voxmedia/github-action-slack-notify-build@v1.1.1
+        with:
+          channel: github-actions
+          status: STARTING
+          color: warning
 
       - uses: actions/checkout@v2
       - uses: php-actions/composer@v1
+      - uses: nanasess/setup-php@master
       - uses: php-actions/phpunit@v9
+
+      - name: Run tests
+        run: phpunit test/AgentTest.php && php test/SecureNativeTest.php
 
       - name: Publish to codecov
         run: bash <(curl -s https://codecov.io/bash)
