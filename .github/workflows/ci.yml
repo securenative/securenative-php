@@ -26,8 +26,11 @@ jobs:
       - uses: php-actions/composer@v1
       - uses: nanasess/setup-php@master
 
+      - name: Install phpunit
+        run: apt-get install phpunit
+
       - name: Run tests
-        run: php test/AgentTest.php && php test/SecureNativeTest.php
+        run: phpunit test/AgentTest.php && php test/SecureNativeTest.php
 
       - name: Publish to codecov
         run: bash <(curl -s https://codecov.io/bash)
