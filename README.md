@@ -164,7 +164,7 @@ use SecureNative\sdk\SecureNativeContext;
 
 $ver = SecureNative::verify(array(
         'event' => EventTypes::VERIFY,
-        'userId' => '27',
+        'userId' => '1234',
         'context' => SecureNativeContext::fromRequest(),
         'userTraits' => (object)[
             'name' => 'Your Name',
