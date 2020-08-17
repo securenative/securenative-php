@@ -24,7 +24,7 @@ class SecureNativeContext
      * @param $method
      * @param $body
      */
-    public function __construct($clientToken, $ip, $remoteIp, $headers, $url, $method, $body)
+    public function __construct($clientToken, $ip = null, $remoteIp = null, $headers = null, $url = null, $method = null, $body = null)
     {
         $this->clientToken = $clientToken;
         $this->ip = $ip;

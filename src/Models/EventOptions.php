@@ -53,7 +53,7 @@ class EventOptions
                 isset($context[self::EVENT_CONTEXT_CLIENT_TOKEN]) ? $context[self::EVENT_CONTEXT_CLIENT_TOKEN] : '',
                 isset($context[self::EVENT_CONTEXT_IP]) ? $context[self::EVENT_CONTEXT_IP] : '',
                 isset($context[self::EVENT_CONTEXT_REMOTE_IP]) ? $context[self::EVENT_CONTEXT_REMOTE_IP] : '',
-                isset($context[self::EVENT_CONTEXT_HEADERS]) ? $context[self::EVENT_CONTEXT_HEADERS] : '',
+                isset($context[self::EVENT_CONTEXT_HEADERS]) ? $context[self::EVENT_CONTEXT_HEADERS] : (object)[],
                 isset($context[self::EVENT_CONTEXT_URL]) ? $context[self::EVENT_CONTEXT_URL] : '',
                 isset($context[self::EVENT_CONTEXT_METHOD]) ? $context[self::EVENT_CONTEXT_METHOD] : ''
             );
