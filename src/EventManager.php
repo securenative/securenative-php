@@ -6,7 +6,7 @@ use DateTime;
 use DateTimeZone;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Exception\RequestException;
-use phpDocumentor\Reflection\Types\Array_;
+use GuzzleHttp\Client;
 
 class EventManager
 {
@@ -15,11 +15,11 @@ class EventManager
     private $options;
     private $eventsQueue;
 
-    public function __construct($apiKey, SecureNativeOptions $secureNativeOptions)
+    public function __construct($apiKey, SecureNativeOptions $secureNativeOptions, Client $client = null)
     {
         $this->apiKey = $apiKey;
         $this->options = $secureNativeOptions;
-        $this->httpClient = new HttpClient($this->apiKey, $this->options);
+        $this->httpClient = isset($client) ? $client : new HttpClient($this->apiKey, $this->options);
         $this->eventsQueue = array();
     }
 
@@ -68,7 +68,7 @@ class EventManager
         }
     }
 
-    public function sendAsync(SecurenativeEvent $event, $requestUrl)
+    public function sendAsync(SecurenativeEvent $event, $requestUrl, callable $callbackFn = null)
     {
         if (count($this->eventsQueue) >= $this->options->getMaxEvents()) {
             array_shift($$this->eventsQueue);
@@ -80,21 +80,30 @@ class EventManager
         Logger::debug("Added event to queue", $event);
 
         try {
-            $this::sendEvents();
+            $this::sendEvents($callbackFn);
         } catch (Exception $e) {
             Logger::error("Failed to send queue events", $e->getMessage());
             return;
         }
     }
 
-    private function sendEvents()
+    private function sendEvents(callable $callbackFn = null)
     {
         for ($i = 0; $i < count($this->eventsQueue); $i++) {
             $request = $this->eventsQueue[$i];
 
             $promise = $this->httpClient->sendAsync($request);
-            $promise->then(function ($res) use ($request) {
+
+            $promise->then(function ($res) use ($callbackFn, $request) {
                 if (($key = array_search($request, $this->eventsQueue)) !== false) {
+                    try {
+                        $params = json_decode($this->eventsQueue[$key]->getBody());
+                        if (is_callable($callbackFn))
+                            call_user_func($callbackFn, $params);
+                    } catch (\Exception $e) {
+                        Logger::error("Error sending events callback", $e);
+                    }
+
                     unset($this->eventsQueue[$key]);
                 }
             }, function (Exception $e) {
@@ -102,6 +111,14 @@ class EventManager
             });
             $promise->wait(false);
         }
+    }
+
+    /**
+     * Used for testing track event
+     * @return array
+     */
+    public function getEventsQueue() {
+        return $this->eventsQueue;
     }
 
 }

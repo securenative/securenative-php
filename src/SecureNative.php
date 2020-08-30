@@ -12,7 +12,7 @@ class SecureNative
     private static $eventManager;
     private static $middleware;
 
-    public static function init($apiKey, SecureNativeOptions $secureNativeOptions)
+    public static function init($apiKey, SecureNativeOptions $secureNativeOptions, EventManager $eventManager = null)
     {
         if ($apiKey == '') {
             throw new \Exception('You must pass your SecureNative api key');
@@ -21,25 +21,25 @@ class SecureNative
 
         self::$apiKey = $apiKey;
         self::$options = $secureNativeOptions;
-        self::$eventManager = new EventManager($apiKey, self::$options);
+        self::$eventManager = isset($eventManager) ? $eventManager : new EventManager($apiKey, self::$options);
         self::$middleware = new Middleware($apiKey);
     }
 
-    public static function track(Array $attributes)
+    public static function track(Array $attributes, callable $callbackFn = null)
     {
         $opts = new EventOptions(json_encode($attributes));
 
         if ($attributes == null || count($attributes) == 0) {
-            throw new Exception("Can't send empty attributes");
+            throw new \Exception("Can't send empty attributes");
         }
 
-        if (isset($opts->params) && count($opts->params) > MAX_CUSTOM_PARAMS) {
-            throw new Exception(sprintf('You can only specify maximum of %d params', MAX_CUSTOM_PARAMS));
+        if (isset($opts->properties) && count($opts->properties) > MAX_CUSTOM_PARAMS) {
+            throw new \Exception(sprintf('You can only specify maximum of %d properties', MAX_CUSTOM_PARAMS));
         }
 
         $requestUrl = sprintf('%s/track', self::$options->getApiUrl());
         $event = self::$eventManager->buildEvent($opts);
-        self::$eventManager->sendAsync($event, $requestUrl);
+        self::$eventManager->sendAsync($event, $requestUrl, $callbackFn);
     }
 
     public static function verify(Array $attributes)
@@ -66,6 +66,16 @@ class SecureNative
         $event = self::$eventManager->buildEvent($opts);
         return self::$eventManager->sendSync($event, $requestUrl);
     }
+
+    public static function getRequestContext()
+    {
+        return SecureNativeContext::fromRequest();
+    }
+
+    /**
+     * @deprecated use `getRequestContext()` instead
+     * @return SecureNativeContext
+     */
     public static function contextFromContext()
     {
         return SecureNativeContext::fromRequest();

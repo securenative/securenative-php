@@ -22,8 +22,7 @@ final class SecureNativeTest extends PHPUnit\Framework\TestCase
 
     public function testApiKeyException()
     {
-        $this->expectException(Error::class);
-
+        $this->expectException(Exception::class);
         SecureNative::init('', new SecureNativeOptions());
     }
 
@@ -34,19 +33,29 @@ final class SecureNativeTest extends PHPUnit\Framework\TestCase
 
     public function testEmptyTrackAttributes()
     {
-        $this->expectException(Error::class);
+        $this->expectException(Exception::class);
 
         // Should throw exception (http) - should try to send http request
         SecureNative::track(array());
     }
 
-    public function testBasicTrack()
+    public function testMaxTrackParamsException()
     {
-        $this->expectException(RequestException::class);
+        $this->expectException(Exception::class);
 
-        // Should throw exception (http) - should try to send http request
-        SecureNative::track(array('ip' => '1.1.1.1'));
+        SecureNative::track(array(
+            "properties" => (object)[
+                "1" => true,
+                "2" => true,
+                "3" => true,
+                "4" => true,
+                "5" => true,
+                "6" => true,
+                "7" => true,
+            ]
+        ));
     }
+
 
     public function testBasicVerify()
     {
