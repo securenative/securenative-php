@@ -8,19 +8,18 @@ const AES_KEY_SIZE = 32;
 
 abstract class Utils
 {
-
     public static function clientIpFromRequest()
     {
-        if (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER)) {
-            $parts = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
-            return $parts[0];
+        foreach (array('HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR') as $key) {
+            if (array_key_exists($key, $_SERVER) === true) {
+                foreach (array_map('trim', explode(',', $_SERVER[$key])) as $ip) {
+                    if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false) {
+                        return $ip;
+                    }
+                }
+            }
         }
-        if (array_key_exists('HTTP_X_REAL_IP', $_SERVER)) {
-            return $_SERVER['HTTP_X_REAL_IP'];
-        }
-        if (array_key_exists('REMOTE_ADDR', $_SERVER)) {
-            return $_SERVER['REMOTE_ADDR'];
-        }
+        
         return null;
     }
 
