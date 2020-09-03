@@ -56,7 +56,7 @@ final class AgentTest extends PHPUnit\Framework\TestCase
 
     public function testTrack()
     {
-        $options = new SecureNativeOptions("http://testushim.com");
+        $options = new SecureNativeOptions(self::TEST_API_KEY, "http://testushim.com");
         $eventManager = new EventManager(self::TEST_API_KEY, $options, getClient());
         SecureNative::init(self::TEST_API_KEY, $options, $eventManager);
         $trackObject = mock_track_object();
@@ -83,7 +83,7 @@ final class AgentTest extends PHPUnit\Framework\TestCase
 
     public function testTrackCustomContext()
     {
-        $options = new SecureNativeOptions("http://testushim.com");
+        $options = new SecureNativeOptions(self::TEST_API_KEY, "http://testushim.com");
         $eventManager = new EventManager(self::TEST_API_KEY, $options, getClient());
         SecureNative::init(self::TEST_API_KEY, $options, $eventManager);
         $context = new SecureNativeContext("123ABC123ABC123ABC123ABC123ABC123ABC123ABC123ABC", "12.12.12.1", "33.33.33.33", ["User-Agent" => "Amit"], "yo.com");
@@ -109,7 +109,7 @@ final class AgentTest extends PHPUnit\Framework\TestCase
 
     public function testVerify()
     {
-        $options = new SecureNativeOptions("http://testushim.com");
+        $options = new SecureNativeOptions(self::TEST_API_KEY, "http://testushim.com");
         $eventManager = new EventManager(self::TEST_API_KEY, $options, getClient());
         SecureNative::init(self::TEST_API_KEY, $options, $eventManager);
         $trackObject = mock_track_object();

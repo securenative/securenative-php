@@ -4,7 +4,7 @@ namespace SecureNative\sdk;
 
 class SecureNativeOptions
 {
-    private $apiKey = null; // TODO: Needed here?
+    private $apiKey = null;
     private $apiUrl = 'https://api.securenative.com/collector/api/v1';
     private $interval = 1000;
     private $maxEvents = 1000;
@@ -14,8 +14,9 @@ class SecureNativeOptions
     private $logLevel = 'fatal';
     private $failoverStrategy = 'fail-open';
 
-    public function __construct($apiUrl = null, $interval = null, $maxEvents = null, $timeout = null, $autoSend = null, $disable = null, $logLevel = null)
+    public function __construct($apiKey = null, $apiUrl = null, $interval = null, $maxEvents = null, $timeout = null, $autoSend = null, $disable = null, $logLevel = null)
     {
+        isset($apiKey) ? $this->apiKey = $apiKey : null;
         isset($apiUrl) ? $this->apiUrl = $apiUrl : null;
         isset($interval) ? $this->interval = $interval : null;
         isset($maxEvents) ? $this->maxEvents = $maxEvents : null;
