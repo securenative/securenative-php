@@ -2,8 +2,9 @@
 
 use SecureNative\sdk\ConfigurationManager;
 
-function get_mock_config($filename = 'securenative.json') {
-    return getcwd() .'/assets/' . $filename;
+function get_mock_config($filename = 'securenative.json')
+{
+    return getcwd() . '/assets/' . $filename;
 }
 
 final class ConfigurationManagerTest extends PHPUnit\Framework\TestCase
@@ -56,11 +57,51 @@ final class ConfigurationManagerTest extends PHPUnit\Framework\TestCase
 
     public function testLoadConfig()
     {
-        $json = ConfigurationManager::getConfig(get_mock_config());
-        print_r($json);
+        $options = ConfigurationManager::getConfig(get_mock_config());
+
+        $this->assertNotEmpty($options);
+        $this->assertObjectHasAttribute('apiKey', $options);
+        $this->assertObjectHasAttribute('apiUrl', $options);
+        $this->assertObjectHasAttribute('interval', $options);
+        $this->assertEquals('SOME_API_KEY', $options->getApiKey());
+        $this->assertEquals('SOME_API_URL', $options->getApiUrl());
+        $this->assertEquals(1000, $options->getInterval());
     }
 
-    // TODO: Test environment variables (Should get config via env variables)
+    function getConfigTestKeys()
+    {
+        return (object)[
+            'SECURENATIVE_API_KEY' => (object)['name' => 'getApiKey', 'value' => 'TEST_KEY'],
+            'SECURENATIVE_API_URL' => (object)['name' => 'getApiUrl', 'value' => 'http://url'],
+            'SECURENATIVE_INTERVAL' => (object)['name' => 'getInterval', 'value' => 100],
+            'SECURENATIVE_MAX_EVENTS' => (object)['name' => 'getMaxEvents', 'value' => 30],
+            'SECURENATIVE_TIMEOUT' => (object)['name' => 'getTimeout', 'value' => 2500],
+            'SECURENATIVE_AUTO_SEND' => (object)['name' => 'isAutoSend', 'value' => true],
+            'SECURENATIVE_DISABLE' => (object)['name' => 'isDisable', 'value' => false],
+            'SECURENATIVE_LOG_LEVEL' => (object)['name' => 'getLogLevel', 'value' => 'log'],
+            'SECURENATIVE_FAILOVER_STRATEGY' => (object)['name' => 'getFailoverStrategy', 'value' => 'failush'],
+        ];
+    }
+
+    public function testEnvironmentVariables()
+    {
+        // Should get config via env variables
+        $testKeys = $this->getConfigTestKeys();
+
+        // Set env for each ovject item
+        foreach ($testKeys as $key => $item) {
+            putenv("$key=" . $item->value);
+        }
+
+        $options = ConfigurationManager::getConfig();
+
+        $this->assertNotEmpty($options);
+
+        // Assert options value equals env value
+        foreach ($testKeys as $key => $item) {
+            $this->assertEquals($item->value, call_user_func(array($options, $item->name)));
+        }
+    }
 
     // TODO: Test default params (Should get default config when config file and env variables are missing)
 

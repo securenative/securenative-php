@@ -98,6 +98,7 @@ class ConfigurationManager
             $getConfigOrEnv('autoSend', 'SECURENATIVE_AUTO_SEND'),
             $getConfigOrEnv('disable', 'SECURENATIVE_DISABLE'),
             $getConfigOrEnv('logLevel', 'SECURENATIVE_LOG_LEVEL'),
+            $getConfigOrEnv('failoverStrategy', 'SECURENATIVE_FAILOVER_STRATEGY'),
         );
     }
 

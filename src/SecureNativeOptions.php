@@ -28,7 +28,7 @@ class SecureNativeOptions
         "failoverStrategy" => 'fail-open',
     );
 
-    public function __construct($apiKey = null, $apiUrl = null, $interval = null, $maxEvents = null, $timeout = null, $autoSend = null, $disable = null, $logLevel = null)
+    public function __construct($apiKey = null, $apiUrl = null, $interval = null, $maxEvents = null, $timeout = null, $autoSend = null, $disable = null, $logLevel = null, $failoverStrategy = null)
     {
         $this->apiKey = isset($apiKey) ? $apiKey : $this->default["apiKey"];
         $this->apiUrl = isset($apiUrl) ? $apiUrl : $this->default["apiUrl"];
@@ -38,6 +38,7 @@ class SecureNativeOptions
         $this->autoSend = isset($autoSend) ? $autoSend : $this->default["autoSend"];
         $this->disable = isset($disable) ? $disable : $this->default["disable"];
         $this->logLevel = isset($logLevel) ? $logLevel : $this->default["logLevel"];
+        $this->failoverStrategy = isset($failoverStrategy) ? $failoverStrategy : $this->default["failoverStrategy"];
     }
 
     /**
@@ -215,5 +216,6 @@ class SecureNativeOptions
         $options->isAutoSend() != $this->default["autoSend"] ? $this->setAutoSend($options->isAutoSend()) : null;
         $options->isDisable() != $this->default["disable"] ? $this->setDisable($options->isDisable()) : null;
         $options->getLogLevel() != $this->default["logLevel"] ? $this->setLogLevel($options->getLogLevel()) : null;
+        $options->getFailoverStrategy() != $this->default["failoverStrategy"] ? $this->setFailoverStrategy($options->getFailoverStrategy()) : null;
     }
 }
