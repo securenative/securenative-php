@@ -1,6 +1,7 @@
 <?php
 
 use SecureNative\sdk\ConfigurationManager;
+use SecureNative\sdk\SecureNativeOptions;
 
 function get_mock_config($filename = 'securenative.json')
 {
@@ -15,6 +16,7 @@ final class ConfigurationManagerTest extends PHPUnit\Framework\TestCase
      */
     public static function init()
     {
+        ConfigurationManager::clearConfig();
     }
 
     public function testReadConfigFile()
@@ -68,7 +70,7 @@ final class ConfigurationManagerTest extends PHPUnit\Framework\TestCase
         $this->assertEquals(1000, $options->getInterval());
     }
 
-    function getConfigTestKeys()
+    private function getConfigTestKeys()
     {
         return (object)[
             'SECURENATIVE_API_KEY' => (object)['name' => 'getApiKey', 'value' => 'TEST_KEY'],
@@ -83,9 +85,9 @@ final class ConfigurationManagerTest extends PHPUnit\Framework\TestCase
         ];
     }
 
+    // Should get config via env variables
     public function testEnvironmentVariables()
     {
-        // Should get config via env variables
         $testKeys = $this->getConfigTestKeys();
 
         // Set env for each ovject item
@@ -100,14 +102,50 @@ final class ConfigurationManagerTest extends PHPUnit\Framework\TestCase
         // Assert options value equals env value
         foreach ($testKeys as $key => $item) {
             $this->assertEquals($item->value, call_user_func(array($options, $item->name)));
+            // Clear env variables after test
+            putenv($key);
         }
     }
 
-    // TODO: Test default params (Should get default config when config file and env variables are missing)
+    // Should get default config when config file and env variables are missing
+    public function testDefaultParams() {
+        $options = ConfigurationManager::getConfig();
 
-    // TODO: Should overwrite env variables with vales from config file
+        $snOptions = new SecureNativeOptions();
+        $testKeys = $this->getConfigTestKeys();
 
-    // TODO: Should set defaults for invalid enum properties
+        foreach ($testKeys as $key => $item) {
+            $this->assertEquals(call_user_func(array($snOptions, $item->name)), call_user_func(array($options, $item->name)));
+        }
+    }
 
+    // Should overwrite env variables with values from config file
+    public function testEnvironmentVariablesOverride()
+    {
+        $testKeys = $this->getConfigTestKeys();
+
+        // Set env for each ovject item
+        foreach ($testKeys as $key => $item) {
+            putenv("$key=" . $item->value);
+        }
+
+        $options = ConfigurationManager::getConfig(get_mock_config());
+
+        $this->assertNotEmpty($options);
+
+        $this->assertEquals('SOME_API_KEY', $options->getApiKey());
+        $this->assertEquals('SOME_API_URL', $options->getApiUrl());
+        $this->assertEquals(1000, $options->getInterval());
+        $this->assertEquals(100, $options->getMaxEvents());
+        $this->assertEquals(1500, $options->getTimeout());
+        $this->assertEquals(true, $options->isAutoSend());
+        $this->assertEquals(false, $options->isDisable());
+        $this->assertEquals("fatal", $options->getLogLevel());
+
+        foreach ($testKeys as $key => $item) {
+            // Clear env variables after test
+            putenv($key);
+        }
+    }
 
 }

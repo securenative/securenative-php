@@ -2,22 +2,24 @@
 
 namespace SecureNative\sdk;
 
-function getConfigMap() {
+function getConfigMap()
+{
     return (object)[
-        'SECURENATIVE_API_KEY' => (object)[ 'name' => 'apiKey', 'type' => 'string' ],
-        'SECURENATIVE_APP_NAME' => (object)[ 'name' => 'appName', 'type' => 'string' ],
-        'SECURENATIVE_API_URL' => (object)[ 'name' => 'apiUrl', 'type' => 'string' ],
-        'SECURENATIVE_INTERVAL' => (object)[ 'name' => 'interval', 'type' => 'integer' ],
-        'SECURENATIVE_MAX_EVENTS' => (object)[ 'name' => 'maxEvents', 'type' => 'integer' ],
-        'SECURENATIVE_TIMEOUT' => (object)[ 'name' => 'timeout', 'type' => 'integer' ],
-        'SECURENATIVE_AUTO_SEND' => (object)[ 'name' => 'autoSend', 'type' => 'boolean' ],
-        'SECURENATIVE_DISABLE' => (object)[ 'name' => 'disable', 'type' => 'boolean' ],
-        'SECURENATIVE_LOG_LEVEL' => (object)[ 'name' => 'logLevel', 'type' => 'string' ],
-        'SECURENATIVE_FAILOVER_STRATEGY' => (object)[ 'name' => 'failoverStrategy', 'type' => 'string' ],
+        'SECURENATIVE_API_KEY' => (object)['name' => 'apiKey', 'type' => 'string'],
+        'SECURENATIVE_APP_NAME' => (object)['name' => 'appName', 'type' => 'string'],
+        'SECURENATIVE_API_URL' => (object)['name' => 'apiUrl', 'type' => 'string'],
+        'SECURENATIVE_INTERVAL' => (object)['name' => 'interval', 'type' => 'integer'],
+        'SECURENATIVE_MAX_EVENTS' => (object)['name' => 'maxEvents', 'type' => 'integer'],
+        'SECURENATIVE_TIMEOUT' => (object)['name' => 'timeout', 'type' => 'integer'],
+        'SECURENATIVE_AUTO_SEND' => (object)['name' => 'autoSend', 'type' => 'boolean'],
+        'SECURENATIVE_DISABLE' => (object)['name' => 'disable', 'type' => 'boolean'],
+        'SECURENATIVE_LOG_LEVEL' => (object)['name' => 'logLevel', 'type' => 'string'],
+        'SECURENATIVE_FAILOVER_STRATEGY' => (object)['name' => 'failoverStrategy', 'type' => 'string'],
     ];
 }
 
-function getConfigMapItem($key) {
+function getConfigMapItem($key)
+{
     return getConfigMap()->{$key};
 }
 
@@ -25,7 +27,7 @@ class ConfigurationManager
 {
     const CONFIG_FILE = 'securenative.json';
 
-    public static SecureNativeOptions $config;
+    public static ?SecureNativeOptions $config;
 
     static function readConfigFile($configFilePath = null)
     {
@@ -74,7 +76,7 @@ class ConfigurationManager
         $fileConfig = self::readConfigFile($configFilePath);
 
         // Returns config item value -> if not found returns env value -> if not found -> null
-        $getConfigOrEnv = function ($configKey, $envKey) use($fileConfig) {
+        $getConfigOrEnv = function ($configKey, $envKey) use ($fileConfig) {
             $type = getConfigMapItem($envKey)->type;
             $envVal = getenv($envKey) ? getenv($envKey) : null;
 
@@ -102,9 +104,14 @@ class ConfigurationManager
         );
     }
 
+    static function clearConfig()
+    {
+        self::$config = null;
+    }
+
     static function getConfig($configFilePath = null): SecureNativeOptions
     {
-        if (!isset(self::$config)) {
+        if (!isset(self::$config) || self::$config == null) {
             self::loadConfig($configFilePath);
         }
         return self::$config;

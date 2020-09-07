@@ -17,7 +17,7 @@ class SecureNativeOptions
 
     // Needed for option merging
     private $default = array(
-        "apiKey" => null,
+        "apiKey" => "",
         "apiUrl" => "https://api.securenative.com/collector/api/v1",
         "interval" => 1000,
         "maxEvents" => 1000,
