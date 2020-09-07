@@ -69,7 +69,7 @@ class ConfigurationManager
         return self::$config[$key];
     }
 
-    private static function loadConfig($configFilePath)
+    private static function loadConfig($configFilePath = null)
     {
         $fileConfig = self::readConfigFile($configFilePath);
 
@@ -101,7 +101,7 @@ class ConfigurationManager
         );
     }
 
-    static function getConfig($configFilePath): SecureNativeOptions
+    static function getConfig($configFilePath = null): SecureNativeOptions
     {
         if (!isset(self::$config)) {
             self::loadConfig($configFilePath);

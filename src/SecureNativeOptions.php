@@ -2,28 +2,42 @@
 
 namespace SecureNative\sdk;
 
+
 class SecureNativeOptions
 {
-    private $apiKey = null;
-    private $apiUrl = 'https://api.securenative.com/collector/api/v1';
-    private $interval = 1000;
-    private $maxEvents = 1000;
-    private $timeout = 30000;
-    private $autoSend = true;
-    private $disable = false;
-    private $logLevel = 'fatal';
-    private $failoverStrategy = 'fail-open';
+    private $apiKey;
+    private $apiUrl;
+    private $interval;
+    private $maxEvents;
+    private $timeout;
+    private $autoSend;
+    private $disable;
+    private $logLevel;
+    private $failoverStrategy;
+
+    // Needed for option merging
+    private $default = array(
+        "apiKey" => null,
+        "apiUrl" => "https://api.securenative.com/collector/api/v1",
+        "interval" => 1000,
+        "maxEvents" => 1000,
+        "timeout" => 30000,
+        "autoSend" => true,
+        "disable" => false,
+        "logLevel" => 'fatal',
+        "failoverStrategy" => 'fail-open',
+    );
 
     public function __construct($apiKey = null, $apiUrl = null, $interval = null, $maxEvents = null, $timeout = null, $autoSend = null, $disable = null, $logLevel = null)
     {
-        isset($apiKey) ? $this->apiKey = $apiKey : null;
-        isset($apiUrl) ? $this->apiUrl = $apiUrl : null;
-        isset($interval) ? $this->interval = $interval : null;
-        isset($maxEvents) ? $this->maxEvents = $maxEvents : null;
-        isset($timeout) ? $this->timeout = $timeout : null;
-        isset($autoSend) ? $this->autoSend = $autoSend : null;
-        isset($disable) ? $this->disable = $disable : null;
-        isset($logLevel) ? $this->logLevel = $logLevel : null;
+        $this->apiKey = isset($apiKey) ? $apiKey : $this->default["apiKey"];
+        $this->apiUrl = isset($apiUrl) ? $apiUrl : $this->default["apiUrl"];
+        $this->interval = isset($interval) ? $interval : $this->default["interval"];
+        $this->maxEvents = isset($maxEvents) ?$maxEvents : $this->default["maxEvents"];
+        $this->timeout = isset($timeout) ? $timeout : $this->default["timeout"];
+        $this->autoSend = isset($autoSend) ? $autoSend : $this->default["autoSend"];
+        $this->disable = isset($disable) ? $disable : $this->default["disable"];
+        $this->logLevel = isset($logLevel) ? $logLevel : $this->default["logLevel"];
     }
 
     /**
@@ -188,4 +202,18 @@ class SecureNativeOptions
         return $this;
     }
 
+    /**
+     * Merge an existing `SecureNativeOptions` object into an existing one
+     * @param SecureNativeOptions $options
+     */
+    public function mergeOptions(SecureNativeOptions $options) {
+        $options->getApiKey() != $this->default["apiKey"] ? $this->setApiKey($options->getApiKey()) : null;
+        $options->getApiUrl() != $this->default["apiUrl"] ? $this->setApiUrl($options->getApiUrl()) : null;
+        $options->getInterval() != $this->default["interval"] ? $this->setInterval($options->getInterval()) : null;
+        $options->getMaxEvents() != $this->default["maxEvents"] ? $this->setMaxEvents($options->getMaxEvents()) : null;
+        $options->getTimeout() != $this->default["timeout"] ? $this->setTimeout($options->getTimeout()) : null;
+        $options->isAutoSend() != $this->default["autoSend"] ? $this->setAutoSend($options->isAutoSend()) : null;
+        $options->isDisable() != $this->default["disable"] ? $this->setDisable($options->isDisable()) : null;
+        $options->getLogLevel() != $this->default["logLevel"] ? $this->setLogLevel($options->getLogLevel()) : null;
+    }
 }

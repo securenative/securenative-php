@@ -1,32 +1,47 @@
 <?php
 
 namespace SecureNative\sdk;
-//
+
 
 const MAX_CUSTOM_PARAMS = 6;
 
 class SecureNative
 {
+    private static bool $isInitialized = false;
     private static $apiKey;
-    private static $options;
-    private static $eventManager;
+    private static SecureNativeOptions $options;
+    private static EventManager $eventManager;
     private static $middleware;
 
-    public static function init($apiKey, SecureNativeOptions $secureNativeOptions, EventManager $eventManager = null)
+    public static function init($apiKey, SecureNativeOptions $secureNativeOptions = null, EventManager $eventManager = null)
     {
+        if (self::$isInitialized) {
+            Logger::warning("Already initialized, exiting");
+            return;
+        }
+
         if ($apiKey == '') {
             throw new \Exception('You must pass your SecureNative api key');
         }
+        self::$isInitialized = true;
+
         Logger::init($secureNativeOptions);
 
+        $fileOptions = ConfigurationManager::getConfig();
+        $fileOptions->mergeOptions($secureNativeOptions);
+
         self::$apiKey = $apiKey;
-        self::$options = $secureNativeOptions;
+        self::$options = $fileOptions;
         self::$eventManager = isset($eventManager) ? $eventManager : new EventManager($apiKey, self::$options);
         self::$middleware = new Middleware($apiKey);
     }
 
     public static function track(Array $attributes, callable $callbackFn = null)
     {
+        if (!self::$isInitialized) {
+            throw new \Exception("Call `init()` before running this function");
+        }
+
         $opts = new EventOptions(json_encode($attributes));
 
         if ($attributes == null || count($attributes) == 0) {
@@ -44,6 +59,10 @@ class SecureNative
 
     public static function verify(Array $attributes)
     {
+        if (!self::$isInitialized) {
+            throw new \Exception("Call `init()` before running this function");
+        }
+
         $opts = new EventOptions(json_encode($attributes));
         $requestUrl = sprintf('%s/verify', self::$options->getApiUrl());
         $event = self::$eventManager->buildEvent($opts);
@@ -61,6 +80,10 @@ class SecureNative
 
     public static function flow($flowId, Array $attributes)
     {
+        if (!self::$isInitialized) {
+            throw new \Exception("Call `init()` before running this function");
+        }
+
         $opts = new EventOptions(json_encode($attributes));
         $requestUrl = sprintf('%s/flow/%s', self::$options->getApiUrl(), $flowId);
         $event = self::$eventManager->buildEvent($opts);

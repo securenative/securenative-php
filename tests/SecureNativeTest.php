@@ -17,7 +17,7 @@ final class SecureNativeTest extends PHPUnit\Framework\TestCase
      */
     public static function initSDK()
     {
-        SecureNative::init(TEST_API_KEY, new SecureNativeOptions());
+
     }
 
     public function testApiKeyException()
@@ -28,19 +28,38 @@ final class SecureNativeTest extends PHPUnit\Framework\TestCase
 
     public function testInitWorks()
     {
+        SecureNative::init(TEST_API_KEY, new SecureNativeOptions());
         $this->assertEquals(TEST_API_KEY, SecureNative::getApiKey());
     }
 
     public function testEmptyTrackAttributes()
     {
+        SecureNative::init(TEST_API_KEY, new SecureNativeOptions());
+
         $this->expectException(Exception::class);
 
         // Should throw exception (http) - should try to send http request
         SecureNative::track(array());
     }
 
+    public function testTrackBeforeInit()
+    {
+        $this->expectException(Exception::class);
+
+        SecureNative::track(array("yo" => "yo"));
+    }
+
+    public function testVerifyBeforeInit()
+    {
+        $this->expectException(Exception::class);
+
+        SecureNative::verify(array("yo" => "yo"));
+    }
+
     public function testMaxTrackParamsException()
     {
+        SecureNative::init(TEST_API_KEY, new SecureNativeOptions());
+
         $this->expectException(Exception::class);
 
         SecureNative::track(array(
