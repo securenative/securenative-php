@@ -42,7 +42,7 @@ class SecureNative
             throw new \Exception("Call `init()` before running this function");
         }
 
-        $opts = new EventOptions(json_encode($attributes));
+        $opts = new EventOptions($attributes);
 
         if ($attributes == null || count($attributes) == 0) {
             throw new \Exception("Can't send empty attributes");
@@ -63,7 +63,7 @@ class SecureNative
             throw new \Exception("Call `init()` before running this function");
         }
 
-        $opts = new EventOptions(json_encode($attributes));
+        $opts = new EventOptions($attributes);
         $requestUrl = sprintf('%s/verify', self::$options->getApiUrl());
         $event = self::$eventManager->buildEvent($opts);
         $result = self::$eventManager->sendSync($event, $requestUrl);
@@ -72,6 +72,8 @@ class SecureNative
             Logger::debug("Verify result arrived empty, using default results");
             return new VerifyResult();
         } else {
+            echo  'verify result: ';
+            print_r($result);
             Logger::debug("Verify result successfuly arrived", $result);
         }
 
@@ -84,7 +86,7 @@ class SecureNative
             throw new \Exception("Call `init()` before running this function");
         }
 
-        $opts = new EventOptions(json_encode($attributes));
+        $opts = new EventOptions($attributes);
         $requestUrl = sprintf('%s/flow/%s', self::$options->getApiUrl(), $flowId);
         $event = self::$eventManager->buildEvent($opts);
         return self::$eventManager->sendSync($event, $requestUrl);

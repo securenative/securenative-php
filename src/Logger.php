@@ -23,23 +23,37 @@ class Logger
         Logger::$logger->pushHandler(new StreamHandler('php://stdout', $level = $logLevel, $bubble = true));
     }
 
+    private static function hasLoggerInstance() {
+        return isset(Logger::$logger);
+    }
+
     public static function debug($message, ...$args) {
-        Logger::$logger->debug($message, $args);
+        if (self::hasLoggerInstance()) {
+            Logger::$logger->debug($message, $args);
+        }
     }
 
     public static function info($message, ...$args) {
-        Logger::$logger->info($message, $args);
+        if (self::hasLoggerInstance()) {
+            Logger::$logger->info($message, $args);
+        }
     }
 
     public static function error($message, ...$args) {
-        Logger::$logger->error($message, $args);
+        if (self::hasLoggerInstance()) {
+            Logger::$logger->error($message, $args);
+        }
     }
 
     public static function warning($message, ...$args) {
-        Logger::$logger->warning($message, $args);
+        if (self::hasLoggerInstance()) {
+            Logger::$logger->warning($message, $args);
+        }
     }
 
     public static function fatal($message, ...$args) {
-        Logger::$logger->critical($message, $args);
+        if (self::hasLoggerInstance()) {
+            Logger::$logger->critical($message, $args);
+        }
     }
 }

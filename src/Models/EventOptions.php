@@ -30,11 +30,19 @@ class EventOptions
     public $properties = null;
     public $timestamp;
 
-    public function __construct($json = false){
-        if ($json) $this->set(json_decode($json, true));
+    public function __construct($json = false)
+    {
+        if ($json) {
+            $jsonData = $json;
+            if (is_array($json)) {
+                $jsonData = json_encode($json);
+            }
+            $this->set(json_decode($jsonData, true));
+        }
     }
 
-    private function set($data){
+    private function set($data)
+    {
         $this->event = isset($data[self::EVENT]) ? $data[self::EVENT] : null;
         $this->userId = isset($data[self::EVENT_USER_ID]) ? $data[self::EVENT_USER_ID] : null;
 
