@@ -47,11 +47,11 @@ final class AgentTest extends PHPUnit\Framework\TestCase
     const TEST_API_KEY = 'sample_key';
 
     /**
-     * @before
+     * @after
      */
-    public static function initSDK()
+    public static function clearSDK()
     {
-
+        SecureNative::destroy();
     }
 
     public function testTrack()

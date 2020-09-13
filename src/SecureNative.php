@@ -116,4 +116,11 @@ class SecureNative
     {
         return self::$apiKey;
     }
+
+    /**
+     * Destroy object after use
+     */
+    public static function destroy() {
+        self::$isInitialized = false;
+    }
 }
