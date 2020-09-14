@@ -10,7 +10,6 @@ function get_mock_config($filename = 'securenative.json')
 
 final class ConfigurationManagerTest extends PHPUnit\Framework\TestCase
 {
-
     /**
      * @before
      */

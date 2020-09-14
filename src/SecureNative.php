@@ -13,11 +13,17 @@ class SecureNative
     private static EventManager $eventManager;
     private static $middleware;
 
-    public static function init($apiKey, SecureNativeOptions $secureNativeOptions = null, EventManager $eventManager = null)
+    public static function init($apiKey = '', SecureNativeOptions $secureNativeOptions = null, EventManager $eventManager = null)
     {
         if (self::$isInitialized) {
             Logger::warning("Already initialized, exiting");
             return;
+        }
+
+        $fileOptions = ConfigurationManager::getConfig();
+        // Adds the ability to get api-key from configuration file
+        if ($apiKey == '' && $fileOptions->getApiKey() != '') {
+            $apiKey = $fileOptions->getApiKey();
         }
 
         if ($apiKey == '') {
@@ -27,7 +33,6 @@ class SecureNative
 
         Logger::init($secureNativeOptions);
 
-        $fileOptions = ConfigurationManager::getConfig();
         $fileOptions->mergeOptions($secureNativeOptions);
 
         self::$apiKey = $apiKey;
