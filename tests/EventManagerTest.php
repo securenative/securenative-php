@@ -120,6 +120,25 @@ final class EventManagerTest extends PHPUnit\Framework\TestCase
         $this->assertNull($response);
     }
 
+    public function testAsyncShouldRetry() {
+        $options = new SecureNativeOptions(self::TEST_API_KEY, "http://testushim.com");
+        $eventManager = new EventManager(self::TEST_API_KEY, $options, getClient(true));
+        $mock = mock_track_object();
+        $opt = new EventOptions($mock);
+
+        $event = $eventManager->buildEvent($opt);
+
+        $callbackRes = null;
+        $eventManager->sendAsync($event, 'URL', function ($params) use (&$callbackRes) {
+            $callbackRes = $params;
+        });
+
+        $eventsQueue = $eventManager->getEventsQueue();
+
+        $this->assertNotEmpty($eventsQueue, 'Queue should be empty on success');
+        $this->assertNull($callbackRes, 'Track callback should not be called');
+    }
+
 
     public function testSendAsync()
     {

@@ -106,8 +106,16 @@ class EventManager
 
                     unset($this->eventsQueue[$key]);
                 }
-            }, function (Exception $e) {
-                Logger::error("Failed to send event request", $e->getMessage());
+            }, function (RequestException $e) use ($request) {
+                // Retry sending event when status code is server error
+                if ($e->getCode() == 401) {
+                    if (($key = array_search($request, $this->eventsQueue)) !== false) {
+                        unset($this->eventsQueue[$key]);
+                        Logger::error("Failed to send event request, aborting", $e->getMessage());
+                    }
+                } else {
+                    Logger::error("Failed to send event request, retrying", $e->getMessage());
+                }
             });
             $promise->wait(false);
         }
