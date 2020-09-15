@@ -33,27 +33,30 @@ class ConfigurationManager
     {
         $configMap = getConfigMap();
         $validConfigValues = array();
-        $path = isset($configFilePath) ? $configFilePath : join('/', array(trim(getcwd(), '/'), self::CONFIG_FILE));
+        $path = isset($configFilePath) ? $configFilePath : join('/', array(getcwd(), self::CONFIG_FILE));
 
         try {
-            $file = file_get_contents($path);
-            $json = json_decode($file);
+            $file = @file_get_contents($path);
+            if ($file === false) {
+                Logger::error("Error loading configuration file");
+            } else {
+                $json = json_decode($file);
 
-            if (is_array($json) || is_object($json)) {
-                foreach ($json as $key => $val) {
-                    // If config item exists
-                    if (property_exists($configMap, $key)) {
-                        $mapItem = $configMap->{$key};
-                        // Prop type matches desired type
-                        if ($mapItem->type == gettype($val)) {
-                            $validConfigValues[$mapItem->name] = $val;
+                if (is_array($json) || is_object($json)) {
+                    foreach ($json as $key => $val) {
+                        // If config item exists
+                        if (property_exists($configMap, $key)) {
+                            $mapItem = $configMap->{$key};
+                            // Prop type matches desired type
+                            if ($mapItem->type == gettype($val)) {
+                                $validConfigValues[$mapItem->name] = $val;
+                            }
                         }
                     }
                 }
             }
         } catch (\Exception $e) {
-            // TODO: Testing error (logger not initialized)
-            //Logger::error("Error loading configuration file");
+            Logger::error("Error loading configuration file");
         }
 
         return $validConfigValues;
