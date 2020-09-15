@@ -77,8 +77,6 @@ class SecureNative
             Logger::debug("Verify result arrived empty, using default results");
             return new VerifyResult();
         } else {
-            echo  'verify result: ';
-            print_r($result);
             Logger::debug("Verify result successfuly arrived", $result);
         }
 
