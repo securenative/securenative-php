@@ -42,7 +42,7 @@ function mock_track_object($context = null)
     );
 }
 
-final class AgentTest extends PHPUnit\Framework\TestCase
+final class ApiTest extends PHPUnit\Framework\TestCase
 {
     const TEST_API_KEY = 'sample_key';
 
