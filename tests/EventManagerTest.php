@@ -5,7 +5,7 @@ use SecureNative\sdk\EventOptions;
 use SecureNative\sdk\SecureNative;
 use SecureNative\sdk\SecureNativeOptions;
 
-require_once './MockUtils.php';
+require_once 'MockUtils.php';
 
 
 final class EventManagerTest extends PHPUnit\Framework\TestCase

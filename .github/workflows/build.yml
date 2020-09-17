@@ -31,7 +31,7 @@ jobs:
       - uses: php-actions/phpunit@v9
 
       - name: Run tests
-        run: phpunit test/AgentTest.php && php test/SecureNativeTest.php
+        run: phpunit tests/AgentTest.php && php tests/SecureNativeTest.php
 
       - name: Publish to codecov
         run: bash <(curl -s https://codecov.io/bash)

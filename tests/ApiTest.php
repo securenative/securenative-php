@@ -11,7 +11,7 @@ use SecureNative\sdk\SecureNativeContext;
 use SecureNative\sdk\SecureNativeOptions;
 use SecureNative\sdk\VerifyResult;
 
-require_once './MockUtils.php';
+require_once 'MockUtils.php';
 
 final class ApiTest extends PHPUnit\Framework\TestCase
 {
