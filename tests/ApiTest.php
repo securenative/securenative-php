@@ -11,43 +11,14 @@ use SecureNative\sdk\SecureNativeContext;
 use SecureNative\sdk\SecureNativeOptions;
 use SecureNative\sdk\VerifyResult;
 
-
-function getClient()
-{
-    $mock = new MockHandler([
-        new Response(200, [], 'Yo Body stuff'),
-        new Response(202, ['Content-Length' => 0]),
-    ]);
-
-    $handlerStack = HandlerStack::create($mock);
-    $client = new Client(['handler' => $handlerStack]);
-    return $client;
-}
-
-function mock_track_object($context = null)
-{
-    return array(
-        'event' => EventTypes::LOG_IN,
-        'context' => isset($context) ? $context : SecureNative::getRequestContext(),
-        'userId' => '556595',
-        'userTraits' => (object)[
-            'name' => 'Your name',
-            'email' => 'test@test.com'
-        ],
-        // Custom properties
-        'properties' => (object)[
-            "prop1" => "test",
-            "prop2" => 3
-        ]
-    );
-}
+require_once './MockUtils.php';
 
 final class ApiTest extends PHPUnit\Framework\TestCase
 {
     const TEST_API_KEY = 'sample_key';
 
     /**
-     * @after
+     * @before
      */
     public static function clearSDK()
     {
@@ -116,7 +87,8 @@ final class ApiTest extends PHPUnit\Framework\TestCase
 
         $response = SecureNative::verify($trackObject);
 
-        $this->assertEquals($response, new VerifyResult(), 'Result should be equal to empty verify result');
+        $this->assertNotEmpty($response, 'Result should not be empty');
+        $this->assertObjectHasAttribute('success', $response, 'Result should have success attribute');
     }
 
 }

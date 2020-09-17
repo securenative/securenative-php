@@ -26,7 +26,7 @@ class SecureNative
             $apiKey = $fileOptions->getApiKey();
         }
 
-        if ($apiKey == null) {
+        if ($apiKey == null || $apiKey == '') {
             throw new \Exception('You must pass your SecureNative api key');
         }
         self::$isInitialized = true;
@@ -127,5 +127,6 @@ class SecureNative
      */
     public static function destroy() {
         self::$isInitialized = false;
+        ConfigurationManager::clearConfig();
     }
 }
