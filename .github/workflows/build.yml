@@ -14,12 +14,6 @@ jobs:
       matrix:
         os: [ubuntu-latest]
     steps:
-      - name: PHPUnit tests
-        uses: php-actions/phpunit@v9
-        with:
-          configuration: tests/phpunit.xml
-          memory_limit: 256M
-
       - name: Notify slack success
         if: success()
         id: slack # IMPORTANT: reference this step ID value in future Slack steps
@@ -34,6 +28,12 @@ jobs:
       - uses: actions/checkout@v2
       - uses: php-actions/composer@v1
       - uses: nanasess/setup-php@master
+
+      - name: PHPUnit tests
+          uses: php-actions/phpunit@v9
+          with:
+            configuration: tests/phpunit.xml
+            memory_limit: 256M
 
       - name: Publish to codecov
         run: bash <(curl -s https://codecov.io/bash)
