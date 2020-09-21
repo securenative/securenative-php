@@ -34,35 +34,74 @@ When using Composer run the following command:
 $ composer require securenative/securenative-php
 ```
 
-## Initialize the SDK
-
-To get your *API KEY*, login to your SecureNative account and go to project settings page:
-
-### Option 1: Initialize via ConfigurationBuilder
+### Add required imports
 ```php
 require_once __DIR__ . '/vendor/autoload.php';
 
 use SecureNative\sdk\SecureNative;
 use SecureNative\sdk\SecureNativeOptions;
-
-$options =  new SecureNativeOptions();
-
-$options->setMaxEvents(10);
-$options->setLogLevel("error");
-
-SecureNative::init("YOUR_API_KEY", $options);
+use SecureNative\sdk\EventTypes;
+use SecureNative\sdk\SecureNativeContext;
 ```
-### Option 2: Initialize via API Key
 
-Initialize using default options.
+## Initialize the SDK
 
+To get your *API KEY*, login to your SecureNative account and go to project settings page:
+
+### Option 1: Initialize via API_KEY and SecureNativeOptions
 ```php
-require_once __DIR__ . '/vendor/autoload.php';
+$options = new SecureNativeOptions();
+$options->setTimeout(100)
+    ->setApiUrl("API URL")
+    ->setDisable(false)
+    ->setInterval(100)
+    ->setAutoSend(true)
+    ->setMaxEvents(10)
+    ->setLogLevel('fatal');
 
-use SecureNative\sdk\SecureNative;
+// Passing `$options` is optional, will use default params
+SecureNative::init("[API_KEY]", $options);
+```
+### Option 2: Initialize via configuration file
 
+Attach `securenative.json` file to your root folder:
 
-SecureNative::init("YOUR_API_KEY");
+```json
+{
+  "SECURENATIVE_API_KEY": "SOME_API_KEY",
+  "SECURENATIVE_APP_NAME": "SOME_APP_NAME",
+  "SECURENATIVE_API_URL": "SOME_API_URL",
+  "SECURENATIVE_INTERVAL": 1000,
+  "SECURENATIVE_MAX_EVENTS": 100,
+  "SECURENATIVE_TIMEOUT": 1500,
+  "SECURENATIVE_AUTO_SEND": true,
+  "SECURENATIVE_DISABLE": false,
+  "SECURENATIVE_LOG_LEVEL": "fatal"
+}
+```
+Then, call SDK's `init` function without props (sending props will override JSON configurations).
+```php
+SecureNative::init();
+```
+
+### Option 3: Initialize via environment variables
+
+Pass desired environment variables (for example):
+
+```shell script
+SECURENATIVE_API_KEY=TEST_KEY
+SECURENATIVE_API_URL=http://url
+SECURENATIVE_INTERVAL=100
+SECURENATIVE_MAX_EVENTS=30
+SECURENATIVE_TIMEOUT=1500
+SECURENATIVE_AUTO_SEND=true
+SECURENATIVE_DISABLE=false
+SECURENATIVE_LOG_LEVEL=fatal
+```
+
+Then, call SDK's `init` function without props (sending props will override JSON configurations).
+```php
+SecureNative::init();
 ```
 
 ## Tracking events
@@ -71,20 +110,14 @@ Once the SDK has been initialized, tracking requests sent through the SDK
 instance.
 
 ```php
-require_once __DIR__ . '/vendor/autoload.php';
+$clientToken = "[SECURED_CLIENT_TOKEN]";
+$headers = (object)["user-agent" => "Mozilla/5.0 (iPad; U; CPU OS 3_2_1 like Mac OS X; en-us"];
+$ip = "79.179.88.157";
+$remoteIp = null;
+$url = null;
+$method = null;
+$body = null;
 
-use SecureNative\sdk\SecureNative;
-use SecureNative\sdk\SecureNativeOptions;
-use SecureNative\sdk\EventTypes;
-use SecureNative\sdk\SecureNativeContext;
-
-$clientToken = "SECURED_CLIENT_TOKEN"
-$headers = (object)["user-agent" => "Mozilla/5.0 (iPad; U; CPU OS 3_2_1 like Mac OS X; en-us"] // User-Agent header is important to get device information!
-$ip = "127.0.0.1"
-$remoteIp = "127.0.0.1"
-$url = null
-$method = null
-$body = null
 $ctx = new SecureNativeContext($clientToken, $ip, $remoteIp, $headers, $url, $method, $body);
 
 SecureNative::track(array(
@@ -104,14 +137,8 @@ SecureNative::track(array(
 ));
  ```
 
+You can also create request context from request:
  ```php
-require_once __DIR__ . '/vendor/autoload.php';
-
-use SecureNative\sdk\SecureNative;
-use SecureNative\sdk\EventTypes;
-use SecureNative\sdk\SecureNativeContext;
-
-
 SecureNative::track(array(
     'event' => EventTypes::LOG_IN,
     'context' => SecureNative::contextFromContext(),
@@ -129,52 +156,24 @@ SecureNative::track(array(
 ));
  ```
 
-You can also create request context from request:
-
-```php
-require_once __DIR__ . '/vendor/autoload.php';
-
-use SecureNative\sdk\SecureNative;
-use SecureNative\sdk\EventTypes;
-use SecureNative\sdk\SecureNativeContext;
-
-
-SecureNative::track(array(
-    'event' => EventTypes::LOG_IN,
-    'context' => SecureNativeContext::fromRequest(),
-    'userId' => '1234',
-    'userTraits' => (object)[
-        'name' => 'Your Name',
-        'email' => 'name@gmail.com'
-    ],
-));
-```
-
 ## Verify events
 
 **Example**
 
 ```php
-require_once __DIR__ . '/vendor/autoload.php';
-
-use SecureNative\sdk\SecureNative;
-use SecureNative\sdk\EventTypes;
-use SecureNative\sdk\SecureNativeContext;
-
-
 $ver = SecureNative::verify(array(
-        'event' => EventTypes::VERIFY,
-        'userId' => '1234',
-        'context' => SecureNativeContext::fromRequest(),
-        'userTraits' => (object)[
-            'name' => 'Your Name',
-            'email' => 'name@gmail.com'
-        ]
+    'event' => EventTypes::VERIFY,
+    'userId' => '1234',
+    'context' => SecureNativeContext::fromRequest(),
+    'userTraits' => (object)[
+        'name' => 'Your Name',
+        'email' => 'name@gmail.com'
+    ]
 ));
 
-$ver.riskLevel    // Low, Medium, High
-$ver.score        // Risk score: 0 - 1 (0 - Very Low, 1 - Very High)
-$ver.triggers     // ["TOR", "New IP", "New City"]
+print_r($ver->riskLevel);   // (Low, Medium, High)
+print_r($ver->score);       // (0 - Very Low, 1 - Very High)
+print_r($ver->triggers);    // (Example: ["TOR", "New IP", "New City"])
 ```
 
 ## Webhook signature verification
@@ -182,11 +181,6 @@ $ver.triggers     // ["TOR", "New IP", "New City"]
 Apply our filter to verify the request is from us, for example:
 
 ```php
-require_once __DIR__ . '/vendor/autoload.php';
-
-use SecureNative\sdk\SecureNative;
-
-
 $verified = SecureNative::getMiddleware()->verifySignature();
 
 if ($verified) {
