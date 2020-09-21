@@ -30,9 +30,6 @@ jobs:
       - uses: nanasess/setup-php@master
       - uses: php-actions/phpunit@v9
 
-      - name: Run tests
-        run: phpunit tests/AgentTest.php && php tests/SecureNativeTest.php
-
       - name: Publish to codecov
         run: bash <(curl -s https://codecov.io/bash)
 
