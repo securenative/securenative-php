@@ -75,6 +75,7 @@ final class SecureNativeTest extends PHPUnit\Framework\TestCase
         ));
     }
 
+
     public function testBasicVerify()
     {
         SecureNative::init(TEST_API_KEY);
