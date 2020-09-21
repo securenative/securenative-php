@@ -5,7 +5,9 @@ use SecureNative\sdk\SecureNativeOptions;
 
 function get_mock_config($filename = 'securenative.json')
 {
-    return getcwd() . '/assets/' . $filename;
+    $cwd = getcwd();
+    $basePath = $cwd . (strpos($cwd, '/tests') === false ?  '/tests/assets/' : '/assets/');
+    return $basePath . $filename;
 }
 
 final class ConfigurationManagerTest extends PHPUnit\Framework\TestCase
