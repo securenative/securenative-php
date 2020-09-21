@@ -27,7 +27,7 @@
     "guzzlehttp/guzzle": "^6.0",
     "antecedent/patchwork": "~2.0",
     "monolog/monolog": "2.0.2",
-    "phpunit/phpunit": "^8"
+    "phpunit/phpunit": "^9"
   },
   "require-dev": {
     "php-coveralls/php-coveralls": "*"
