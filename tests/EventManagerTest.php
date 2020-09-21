@@ -8,6 +8,7 @@ use SecureNative\sdk\SecureNativeOptions;
 require_once 'MockUtils.php';
 
 
+
 final class EventManagerTest extends PHPUnit\Framework\TestCase
 {
     const TEST_API_KEY = 'sample_key';
