@@ -11,7 +11,7 @@ class SecureNative
     private static $apiKey;
     private static SecureNativeOptions $options;
     private static EventManager $eventManager;
-    private static $middleware;
+    private static Middleware $middleware;
 
     public static function init($apiKey = null, SecureNativeOptions $secureNativeOptions = null, EventManager $eventManager = null)
     {
