@@ -17,43 +17,72 @@ final class SecureNativeTest extends PHPUnit\Framework\TestCase
      */
     public static function initSDK()
     {
-        SecureNative::init(TEST_API_KEY, new SecureNativeOptions());
+        SecureNative::destroy();
     }
 
     public function testApiKeyException()
     {
-        $this->expectException(Error::class);
-
+        $this->expectException(Exception::class);
         SecureNative::init('', new SecureNativeOptions());
     }
 
     public function testInitWorks()
     {
+        SecureNative::init(TEST_API_KEY, new SecureNativeOptions());
         $this->assertEquals(TEST_API_KEY, SecureNative::getApiKey());
     }
 
     public function testEmptyTrackAttributes()
     {
-        $this->expectException(Error::class);
+        SecureNative::init(TEST_API_KEY, new SecureNativeOptions());
+
+        $this->expectException(Exception::class);
 
         // Should throw exception (http) - should try to send http request
         SecureNative::track(array());
     }
 
-    public function testBasicTrack()
+    public function testTrackBeforeInit()
     {
-        $this->expectException(RequestException::class);
+        $this->expectException(Exception::class);
 
-        // Should throw exception (http) - should try to send http request
-        SecureNative::track(array('ip' => '1.1.1.1'));
+        SecureNative::track(array("yo" => "yo"));
     }
+
+    public function testVerifyBeforeInit()
+    {
+        $this->expectException(Exception::class);
+
+        SecureNative::verify(array("yo" => "yo"));
+    }
+
+    public function testMaxTrackParamsException()
+    {
+        $this->expectException(Exception::class);
+
+        SecureNative::init(TEST_API_KEY, new SecureNativeOptions());
+
+        SecureNative::track(array(
+            "properties" => (object)[
+                "1" => true,
+                "2" => true,
+                "3" => true,
+                "4" => true,
+                "5" => true,
+                "6" => true,
+                "7" => true,
+            ]
+        ));
+    }
+
 
     public function testBasicVerify()
     {
+        SecureNative::init(TEST_API_KEY);
         $response = SecureNative::verify(array());
 
         // Response equals default verify results
-        $this->assertEquals($response, new VerifyResult());
+        $this->assertNotEmpty($response);
     }
 
     public function testDecryption()
