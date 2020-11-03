@@ -15,6 +15,7 @@ function getConfigMap()
         'SECURENATIVE_DISABLE' => (object)['name' => 'disable', 'type' => 'boolean'],
         'SECURENATIVE_LOG_LEVEL' => (object)['name' => 'logLevel', 'type' => 'string'],
         'SECURENATIVE_FAILOVER_STRATEGY' => (object)['name' => 'failoverStrategy', 'type' => 'string'],
+        'SECURENATIVE_PROXY_HEADERS' => (object)['name' => 'proxyHeaders', 'type' => 'array'],
     ];
 }
 
@@ -104,6 +105,7 @@ class ConfigurationManager
             $getConfigOrEnv('disable', 'SECURENATIVE_DISABLE'),
             $getConfigOrEnv('logLevel', 'SECURENATIVE_LOG_LEVEL'),
             $getConfigOrEnv('failoverStrategy', 'SECURENATIVE_FAILOVER_STRATEGY'),
+            $getConfigOrEnv('proxyHeaders', 'SECURENATIVE_PROXY_HEADERS'),
         );
     }
 

@@ -33,6 +33,7 @@ final class ConfigurationManagerTest extends PHPUnit\Framework\TestCase
         $this->assertArrayHasKey('autoSend', $arr);
         $this->assertArrayHasKey('disable', $arr);
         $this->assertArrayHasKey('logLevel', $arr);
+        $this->assertArrayHasKey('proxyHeaders', $arr);
     }
 
     public function testUnknownKeys()
@@ -83,6 +84,7 @@ final class ConfigurationManagerTest extends PHPUnit\Framework\TestCase
             'SECURENATIVE_DISABLE' => (object)['name' => 'isDisable', 'value' => false],
             'SECURENATIVE_LOG_LEVEL' => (object)['name' => 'getLogLevel', 'value' => 'log'],
             'SECURENATIVE_FAILOVER_STRATEGY' => (object)['name' => 'getFailoverStrategy', 'value' => 'failush'],
+            'SECURENATIVE_PROXY_HEADERS' => (object)['name' => 'getProxyHeaders', 'value' => 'CF-Connecting-Ip,Some-Random-IP'],
         ];
     }
 
@@ -142,6 +144,7 @@ final class ConfigurationManagerTest extends PHPUnit\Framework\TestCase
         $this->assertEquals(true, $options->isAutoSend());
         $this->assertEquals(false, $options->isDisable());
         $this->assertEquals("fatal", $options->getLogLevel());
+        $this->assertEquals(['CF-Connecting-Ip", "Some-Random-IP'], $options->getProxyHeaders());
 
         foreach ($testKeys as $key => $item) {
             // Clear env variables after test
