@@ -25,13 +25,11 @@ jobs:
           status: STARTING
           color: warning
 
+
       - uses: actions/checkout@v2
       - uses: php-actions/composer@v1
       - uses: nanasess/setup-php@master
       - uses: php-actions/phpunit@v9
-
-      - name: Run tests
-        run: phpunit test/AgentTest.php && php test/SecureNativeTest.php
 
       - name: Publish to codecov
         run: bash <(curl -s https://codecov.io/bash)

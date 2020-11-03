@@ -1,50 +1,74 @@
 <?php
 
 namespace SecureNative\sdk;
-//
+
 
 const MAX_CUSTOM_PARAMS = 6;
 
 class SecureNative
 {
+    private static bool $isInitialized = false;
     private static $apiKey;
-    private static $options;
-    private static $eventManager;
-    private static $middleware;
+    private static SecureNativeOptions $options;
+    private static EventManager $eventManager;
+    private static Middleware $middleware;
 
-    public static function init($apiKey, SecureNativeOptions $secureNativeOptions)
+    public static function init($apiKey = null, SecureNativeOptions $secureNativeOptions = null, EventManager $eventManager = null)
     {
-        if ($apiKey == '') {
+        if (self::$isInitialized) {
+            Logger::warning("Already initialized, exiting");
+            return;
+        }
+
+        $fileOptions = ConfigurationManager::getConfig();
+        // Adds the ability to get api-key from configuration file
+        if ($apiKey == null && $fileOptions->getApiKey() != '') {
+            $apiKey = $fileOptions->getApiKey();
+        }
+
+        if ($apiKey == null || $apiKey == '') {
             throw new \Exception('You must pass your SecureNative api key');
         }
-        Logger::init($secureNativeOptions);
+        self::$isInitialized = true;
+
+
+        isset($secureNativeOptions) ? $fileOptions->mergeOptions($secureNativeOptions) : '';
+        Logger::init($fileOptions);
 
         self::$apiKey = $apiKey;
-        self::$options = $secureNativeOptions;
-        self::$eventManager = new EventManager($apiKey, self::$options);
+        self::$options = $fileOptions;
+        self::$eventManager = isset($eventManager) ? $eventManager : new EventManager($apiKey, self::$options);
         self::$middleware = new Middleware($apiKey);
     }
 
-    public static function track(Array $attributes)
+    public static function track(Array $attributes, callable $callbackFn = null)
     {
-        $opts = new EventOptions(json_encode($attributes));
-
-        if ($attributes == null || count($attributes) == 0) {
-            throw new Exception("Can't send empty attributes");
+        if (!self::$isInitialized) {
+            throw new \Exception("Call `init()` before running this function");
         }
 
-        if (isset($opts->params) && count($opts->params) > MAX_CUSTOM_PARAMS) {
-            throw new Exception(sprintf('You can only specify maximum of %d params', MAX_CUSTOM_PARAMS));
+        $opts = new EventOptions($attributes);
+
+        if ($attributes == null || count($attributes) == 0) {
+            throw new \Exception("Can't send empty attributes");
+        }
+
+        if (isset($opts->properties) && count($opts->properties) > MAX_CUSTOM_PARAMS) {
+            throw new \Exception(sprintf('You can only specify maximum of %d properties', MAX_CUSTOM_PARAMS));
         }
 
         $requestUrl = sprintf('%s/track', self::$options->getApiUrl());
         $event = self::$eventManager->buildEvent($opts);
-        self::$eventManager->sendAsync($event, $requestUrl);
+        self::$eventManager->sendAsync($event, $requestUrl, $callbackFn);
     }
 
     public static function verify(Array $attributes)
     {
-        $opts = new EventOptions(json_encode($attributes));
+        if (!self::$isInitialized) {
+            throw new \Exception("Call `init()` before running this function");
+        }
+
+        $opts = new EventOptions($attributes);
         $requestUrl = sprintf('%s/verify', self::$options->getApiUrl());
         $event = self::$eventManager->buildEvent($opts);
         $result = self::$eventManager->sendSync($event, $requestUrl);
@@ -61,11 +85,25 @@ class SecureNative
 
     public static function flow($flowId, Array $attributes)
     {
-        $opts = new EventOptions(json_encode($attributes));
+        if (!self::$isInitialized) {
+            throw new \Exception("Call `init()` before running this function");
+        }
+
+        $opts = new EventOptions($attributes);
         $requestUrl = sprintf('%s/flow/%s', self::$options->getApiUrl(), $flowId);
         $event = self::$eventManager->buildEvent($opts);
         return self::$eventManager->sendSync($event, $requestUrl);
     }
+
+    public static function getRequestContext()
+    {
+        return SecureNativeContext::fromRequest();
+    }
+
+    /**
+     * @deprecated use `getRequestContext()` instead
+     * @return SecureNativeContext
+     */
     public static function contextFromContext()
     {
         return SecureNativeContext::fromRequest();
@@ -82,5 +120,13 @@ class SecureNative
     public static function getApiKey()
     {
         return self::$apiKey;
+    }
+
+    /**
+     * Destroy object after use
+     */
+    public static function destroy() {
+        self::$isInitialized = false;
+        ConfigurationManager::clearConfig();
     }
 }
