@@ -6,6 +6,7 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use SecureNative\sdk\EventTypes;
 use SecureNative\sdk\SecureNative;
+use SecureNative\sdk\SecureNativeOptions;
 
 function getClient($fail = false)
 {
@@ -27,9 +28,10 @@ function getClient($fail = false)
 
 function mock_track_object($context = null)
 {
+    $options = new SecureNativeOptions();
     return array(
         'event' => EventTypes::LOG_IN,
-        'context' => isset($context) ? $context : SecureNative::getRequestContext(),
+        'context' => isset($context) ? $context : SecureNative::fromRequest($options),
         'userId' => '556595',
         'userTraits' => (object)[
             'name' => 'Your name',

@@ -9,8 +9,17 @@ const AES_KEY_SIZE = 32;
 abstract class Utils
 {
 
-    public static function clientIpFromRequest()
+    public static function clientIpFromRequest($options)
     {
+        if (!empty($options) && count($options->getProxyHeaders()) > 0) {
+            foreach ($options->getProxyHeaders() as $header) {
+                if (array_key_exists($header, $_SERVER)) {
+                    $parts = explode(',', $_SERVER[$header]);
+                    return $parts[0];
+                }
+            }
+        }
+
         if (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER)) {
             $parts = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
             return $parts[0];

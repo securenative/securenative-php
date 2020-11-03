@@ -18,7 +18,8 @@ final class AgentTest extends PHPUnit\Framework\TestCase
 
     public function testApiKeyException()
     {
-        $context = SecureNativeContext::fromRequest();
+        $options = new SecureNativeOptions();
+        $context = SecureNative::fromRequest($options);
 
 //        SecureNative::track(array(
 //            'event' => EventTypes::LOG_IN,
