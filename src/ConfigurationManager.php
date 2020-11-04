@@ -89,6 +89,8 @@ class ConfigurationManager
                     $envVal = intval($envVal);
                 } else if ($type == "boolean") {
                     $envVal = boolval($envVal);
+                } else if ($type == "array") {
+                    $envVal = explode(',', $envVal);
                 }
             }
 
