@@ -84,7 +84,6 @@ final class ConfigurationManagerTest extends PHPUnit\Framework\TestCase
             'SECURENATIVE_DISABLE' => (object)['name' => 'isDisable', 'value' => false],
             'SECURENATIVE_LOG_LEVEL' => (object)['name' => 'getLogLevel', 'value' => 'log'],
             'SECURENATIVE_FAILOVER_STRATEGY' => (object)['name' => 'getFailoverStrategy', 'value' => 'failush'],
-            'SECURENATIVE_PROXY_HEADERS' => (object)['name' => 'getProxyHeaders', 'value' => 'CF-Connecting-IP,Some-Random-IP'],
         ];
     }
 
