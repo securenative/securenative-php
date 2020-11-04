@@ -161,10 +161,12 @@ SecureNative::track(array(
 **Example**
 
 ```php
+$options = new SecureNativeOptions();
+
 $ver = SecureNative::verify(array(
     'event' => EventTypes::VERIFY,
     'userId' => '1234',
-    'context' => SecureNativeContext::fromRequest(),
+    'context' => SecureNative::fromRequest($options),
     'userTraits' => (object)[
         'name' => 'Your Name',
         'email' => 'name@gmail.com'
