@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1604494376">
-  <project timestamp="1604494376">
+<coverage generated="1604765900">
+  <project timestamp="1604765900">
     <package name="SecureNative\sdk">
       <file name="/Users/inbaltako/code/securenative-php/src/ConfigurationManager.php">
         <class name="SecureNative\sdk\ConfigurationManager" namespace="SecureNative\sdk">
@@ -501,20 +501,20 @@
       </file>
       <file name="/Users/inbaltako/code/securenative-php/src/SecureNativeOptions.php">
         <class name="SecureNative\sdk\SecureNativeOptions" namespace="SecureNative\sdk">
-          <metrics complexity="42" methods="22" coveredmethods="14" conditionals="0" coveredconditionals="0" statements="52" coveredstatements="36" elements="74" coveredelements="50"/>
+          <metrics complexity="42" methods="22" coveredmethods="15" conditionals="0" coveredconditionals="0" statements="52" coveredstatements="38" elements="74" coveredelements="53"/>
         </class>
-        <line num="33" type="method" name="__construct" visibility="public" complexity="11" crap="11" count="14"/>
-        <line num="35" type="stmt" count="14"/>
-        <line num="36" type="stmt" count="14"/>
-        <line num="37" type="stmt" count="14"/>
-        <line num="38" type="stmt" count="14"/>
-        <line num="39" type="stmt" count="14"/>
-        <line num="40" type="stmt" count="14"/>
-        <line num="41" type="stmt" count="14"/>
-        <line num="42" type="stmt" count="14"/>
-        <line num="43" type="stmt" count="14"/>
-        <line num="44" type="stmt" count="14"/>
-        <line num="45" type="stmt" count="14"/>
+        <line num="33" type="method" name="__construct" visibility="public" complexity="11" crap="11" count="17"/>
+        <line num="35" type="stmt" count="17"/>
+        <line num="36" type="stmt" count="17"/>
+        <line num="37" type="stmt" count="17"/>
+        <line num="38" type="stmt" count="17"/>
+        <line num="39" type="stmt" count="17"/>
+        <line num="40" type="stmt" count="17"/>
+        <line num="41" type="stmt" count="17"/>
+        <line num="42" type="stmt" count="17"/>
+        <line num="43" type="stmt" count="17"/>
+        <line num="44" type="stmt" count="17"/>
+        <line num="45" type="stmt" count="17"/>
         <line num="50" type="method" name="getApiKey" visibility="public" complexity="1" crap="1" count="8"/>
         <line num="52" type="stmt" count="8"/>
         <line num="59" type="method" name="setApiKey" visibility="public" complexity="1" crap="1" count="3"/>
@@ -560,11 +560,11 @@
         <line num="203" type="method" name="setFailoverStrategy" visibility="public" complexity="1" crap="2" count="0"/>
         <line num="205" type="stmt" count="0"/>
         <line num="206" type="stmt" count="0"/>
-        <line num="212" type="method" name="getProxyHeaders" visibility="public" complexity="1" crap="1" count="11"/>
-        <line num="214" type="stmt" count="11"/>
-        <line num="221" type="method" name="setProxyHeaders" visibility="public" complexity="1" crap="2" count="0"/>
-        <line num="223" type="stmt" count="0"/>
-        <line num="224" type="stmt" count="0"/>
+        <line num="212" type="method" name="getProxyHeaders" visibility="public" complexity="1" crap="1" count="14"/>
+        <line num="214" type="stmt" count="14"/>
+        <line num="221" type="method" name="setProxyHeaders" visibility="public" complexity="1" crap="1" count="3"/>
+        <line num="223" type="stmt" count="3"/>
+        <line num="224" type="stmt" count="3"/>
         <line num="231" type="method" name="mergeOptions" visibility="public" complexity="11" crap="11" count="4"/>
         <line num="232" type="stmt" count="4"/>
         <line num="233" type="stmt" count="4"/>
@@ -577,21 +577,21 @@
         <line num="240" type="stmt" count="4"/>
         <line num="241" type="stmt" count="4"/>
         <line num="242" type="stmt" count="4"/>
-        <metrics loc="243" ncloc="167" classes="1" methods="22" coveredmethods="14" conditionals="0" coveredconditionals="0" statements="52" coveredstatements="36" elements="74" coveredelements="50"/>
+        <metrics loc="243" ncloc="167" classes="1" methods="22" coveredmethods="15" conditionals="0" coveredconditionals="0" statements="52" coveredstatements="38" elements="74" coveredelements="53"/>
       </file>
       <file name="/Users/inbaltako/code/securenative-php/src/Utils.php">
         <class name="SecureNative\sdk\Utils" namespace="SecureNative\sdk">
-          <metrics complexity="29" methods="11" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="53" coveredstatements="29" elements="64" coveredelements="31"/>
+          <metrics complexity="29" methods="11" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="53" coveredstatements="33" elements="64" coveredelements="35"/>
         </class>
         <line num="5" type="stmt" count="0"/>
         <line num="6" type="stmt" count="0"/>
         <line num="7" type="stmt" count="0"/>
-        <line num="12" type="method" name="clientIpFromRequest" visibility="public" complexity="8" crap="22.91" count="9"/>
-        <line num="14" type="stmt" count="9"/>
-        <line num="15" type="stmt" count="0"/>
-        <line num="16" type="stmt" count="0"/>
-        <line num="17" type="stmt" count="0"/>
-        <line num="18" type="stmt" count="0"/>
+        <line num="12" type="method" name="clientIpFromRequest" visibility="public" complexity="8" crap="9.86" count="12"/>
+        <line num="14" type="stmt" count="12"/>
+        <line num="15" type="stmt" count="3"/>
+        <line num="16" type="stmt" count="3"/>
+        <line num="17" type="stmt" count="3"/>
+        <line num="18" type="stmt" count="3"/>
         <line num="23" type="stmt" count="9"/>
         <line num="24" type="stmt" count="0"/>
         <line num="25" type="stmt" count="0"/>
@@ -650,9 +650,9 @@
         <line num="127" type="stmt" count="0"/>
         <line num="129" type="stmt" count="0"/>
         <line num="130" type="stmt" count="0"/>
-        <metrics loc="133" ncloc="133" classes="1" methods="11" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="56" coveredstatements="29" elements="67" coveredelements="31"/>
+        <metrics loc="133" ncloc="133" classes="1" methods="11" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="56" coveredstatements="33" elements="67" coveredelements="35"/>
       </file>
     </package>
-    <metrics files="17" loc="1468" ncloc="1231" classes="15" methods="104" coveredmethods="40" conditionals="0" coveredconditionals="0" statements="444" coveredstatements="306" elements="548" coveredelements="346"/>
+    <metrics files="17" loc="1468" ncloc="1231" classes="15" methods="104" coveredmethods="41" conditionals="0" coveredconditionals="0" statements="444" coveredstatements="312" elements="548" coveredelements="353"/>
   </project>
 </coverage>

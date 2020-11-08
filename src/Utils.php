@@ -72,7 +72,7 @@ abstract class Utils
         return '';
     }
 
-    public static function securHeaderFromRequest()
+    public static function secureHeaderFromRequest()
     {
         if (array_key_exists('HTTP_X_SECURENATIVE', $_SERVER)) {
             return $_SERVER['HTTP_X_SECURENATIVE'];

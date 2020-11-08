@@ -37,7 +37,7 @@ class SecureNativeContext
 
     public static function fromRequest($options) : SecureNativeContext
     {
-        $clientToken = Utils::cookieIdFromRequest() ? Utils::cookieIdFromRequest() : Utils::securHeaderFromRequest();
+        $clientToken = Utils::cookieIdFromRequest() ? Utils::cookieIdFromRequest() : Utils::secureHeaderFromRequest();
         $ip = Utils::clientIpFromRequest($options);
         $remoteIp = Utils::clientIpFromRequest($options);
         $headers =  Utils::headersFromRequest();
