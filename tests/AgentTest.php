@@ -1,8 +1,6 @@
 <?php
 
-use SecureNative\sdk\EventTypes;
 use SecureNative\sdk\SecureNative;
-use SecureNative\sdk\SecureNativeContext;
 use SecureNative\sdk\SecureNativeOptions;
 
 final class AgentTest extends PHPUnit\Framework\TestCase

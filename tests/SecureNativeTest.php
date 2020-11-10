@@ -1,11 +1,9 @@
 <?php
 declare(strict_types=1);
 
-use GuzzleHttp\Exception\RequestException;
 use SecureNative\sdk\SecureNative;
 use SecureNative\sdk\SecureNativeOptions;
 use SecureNative\sdk\Utils;
-use SecureNative\sdk\VerifyResult;
 
 const TEST_API_KEY = 'sample_key';
 

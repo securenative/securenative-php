@@ -1,15 +1,9 @@
 <?php
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Psr7\Response;
 use SecureNative\sdk\EventManager;
-use SecureNative\sdk\EventTypes;
 use SecureNative\sdk\SecureNative;
 use SecureNative\sdk\SecureNativeContext;
 use SecureNative\sdk\SecureNativeOptions;
-use SecureNative\sdk\VerifyResult;
 
 require_once 'MockUtils.php';
 
