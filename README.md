@@ -190,7 +190,7 @@ if ($verified) {
 }
  ```
 
-## Extract proxy headers
+## Extract proxy headers from cloud providers
 
 You can specify custom header keys to allow extraction of client ip from different providers.
 This example demonstrates the usage of proxy headers for ip extraction from Cloudflare.
