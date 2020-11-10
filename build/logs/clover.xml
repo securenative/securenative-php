@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1604765900">
-  <project timestamp="1604765900">
+<coverage generated="1604996754">
+  <project timestamp="1604996754">
     <package name="SecureNative\sdk">
       <file name="/Users/inbaltako/code/securenative-php/src/ConfigurationManager.php">
         <class name="SecureNative\sdk\ConfigurationManager" namespace="SecureNative\sdk">
@@ -620,7 +620,7 @@
         <line num="69" type="stmt" count="9"/>
         <line num="70" type="stmt" count="0"/>
         <line num="72" type="stmt" count="9"/>
-        <line num="75" type="method" name="securHeaderFromRequest" visibility="public" complexity="2" crap="2.15" count="9"/>
+        <line num="75" type="method" name="secureHeaderFromRequest" visibility="public" complexity="2" crap="2.15" count="9"/>
         <line num="77" type="stmt" count="9"/>
         <line num="78" type="stmt" count="0"/>
         <line num="80" type="stmt" count="9"/>
