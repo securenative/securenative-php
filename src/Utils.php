@@ -5,7 +5,7 @@ namespace SecureNative\sdk;
 const ALGORITHM = "AES-256-CBC";
 const BLOCK_SIZE = 16;
 const AES_KEY_SIZE = 32;
-const IP_HEADERS = ["HTTP_X_FORWARDED_FOR", "X_FORWARDED_FOR", "HTTP_X_REAL_IP", "HTTP_X_CLIENT_IP", "REMOTE_ADDR", "x-forwarded-for", "x-client-ip", "x-real-ip", "x-forwarded", "x-cluster-client-ip", "forwarded-for", "forwarded", "via"];
+const IP_HEADERS = ["HTTP_X_FORWARDED_FOR", "X_FORWARDED_FOR", "HTTP_X_CLIENT_IP", "HTTP_X_REAL_IP", "REMOTE_ADDR", "x-forwarded-for", "x-client-ip", "x-real-ip", "x-forwarded", "x-cluster-client-ip", "forwarded-for", "forwarded", "via"];
 
 abstract class Utils
 {
@@ -16,21 +16,26 @@ abstract class Utils
             foreach ($options->getProxyHeaders() as $header) {
                 if (array_key_exists($header, $_SERVER)) {
                     $parts = explode(',', $_SERVER[$header]);
-                    return $parts[0];
+                    foreach ($parts as $ip) {
+                        if (filter_var($ip, FILTER_VALIDATE_IP)) {
+                            return $ip;
+                        }
+                    }
                 }
             }
         }
 
-        if (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER)) {
-            $parts = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
-            return $parts[0];
+        foreach (IP_HEADERS as $header) {
+            if (array_key_exists($header, $_SERVER)) {
+                $parts = explode(',', $_SERVER[$header]);
+                foreach ($parts as $ip) {
+                    if (filter_var($ip, FILTER_VALIDATE_IP)) {
+                        return $ip;
+                    }
+                }
+            }
         }
-        if (array_key_exists('HTTP_X_REAL_IP', $_SERVER)) {
-            return $_SERVER['HTTP_X_REAL_IP'];
-        }
-        if (array_key_exists('REMOTE_ADDR', $_SERVER)) {
-            return $_SERVER['REMOTE_ADDR'];
-        }
+
         return null;
     }
 

@@ -14,6 +14,7 @@ class RequestUtilsTest extends PHPUnit\Framework\TestCase
         $_SERVER["CF-Connecting-IP"] = "203.0.113.1";
 
         $client_ip = Utils::clientIpFromRequest($options);
+        unset($_SERVER["CF-Connecting-IP"]);
         $this->assertEquals("203.0.113.1", $client_ip);
     }
 
@@ -25,6 +26,7 @@ class RequestUtilsTest extends PHPUnit\Framework\TestCase
         $_SERVER["CF-Connecting-IP"] = "f71f:5bf9:25ff:1883:a8c4:eeff:7b80:aa2d";
 
         $client_ip = Utils::clientIpFromRequest($options);
+        unset($_SERVER["CF-Connecting-IP"]);
         $this->assertEquals("f71f:5bf9:25ff:1883:a8c4:eeff:7b80:aa2d", $client_ip);
     }
 
@@ -36,6 +38,7 @@ class RequestUtilsTest extends PHPUnit\Framework\TestCase
         $_SERVER["CF-Connecting-IP"] = "141.246.115.116, 203.0.113.1, 12.34.56.3";
 
         $client_ip = Utils::clientIpFromRequest($options);
+        unset($_SERVER["CF-Connecting-IP"]);
         $this->assertEquals("141.246.115.116", $client_ip);
     }
 
@@ -45,6 +48,7 @@ class RequestUtilsTest extends PHPUnit\Framework\TestCase
         $_SERVER["X_FORWARDED_FOR"] = "f71f:5bf9:25ff:1883:a8c4:eeff:7b80:aa2d";
 
         $client_ip = Utils::clientIpFromRequest($options);
+        unset($_SERVER["X_FORWARDED_FOR"]);
         $this->assertEquals("f71f:5bf9:25ff:1883:a8c4:eeff:7b80:aa2d", $client_ip);
     }
 
@@ -54,6 +58,7 @@ class RequestUtilsTest extends PHPUnit\Framework\TestCase
         $_SERVER["X_FORWARDED_FOR"] = "141.246.115.116, 203.0.113.1, 12.34.56.3";
 
         $client_ip = Utils::clientIpFromRequest($options);
+        unset($_SERVER["X_FORWARDED_FOR"]);
         $this->assertEquals("141.246.115.116", $client_ip);
     }
 
@@ -63,6 +68,7 @@ class RequestUtilsTest extends PHPUnit\Framework\TestCase
         $_SERVER["HTTP_X_REAL_IP"] = "f71f:5bf9:25ff:1883:a8c4:eeff:7b80:aa2d";
 
         $client_ip = Utils::clientIpFromRequest($options);
+        unset($_SERVER["HTTP_X_REAL_IP"]);
         $this->assertEquals("f71f:5bf9:25ff:1883:a8c4:eeff:7b80:aa2d", $client_ip);
     }
 
@@ -72,6 +78,7 @@ class RequestUtilsTest extends PHPUnit\Framework\TestCase
         $_SERVER["HTTP_X_REAL_IP"] = "141.246.115.116, 203.0.113.1, 12.34.56.3";
 
         $client_ip = Utils::clientIpFromRequest($options);
+        unset($_SERVER["HTTP_X_REAL_IP"]);
         $this->assertEquals("141.246.115.116", $client_ip);
     }
 
@@ -81,6 +88,7 @@ class RequestUtilsTest extends PHPUnit\Framework\TestCase
         $_SERVER["REMOTE_ADDR"] = "f71f:5bf9:25ff:1883:a8c4:eeff:7b80:aa2d";
 
         $client_ip = Utils::clientIpFromRequest($options);
+        unset($_SERVER["REMOTE_ADDR"]);
         $this->assertEquals("f71f:5bf9:25ff:1883:a8c4:eeff:7b80:aa2d", $client_ip);
     }
 
@@ -90,6 +98,7 @@ class RequestUtilsTest extends PHPUnit\Framework\TestCase
         $_SERVER["REMOTE_ADDR"] = "141.246.115.116, 203.0.113.1, 12.34.56.3";
 
         $client_ip = Utils::clientIpFromRequest($options);
+        unset($_SERVER["REMOTE_ADDR"]);
         $this->assertEquals("141.246.115.116", $client_ip);
     }
 
@@ -99,6 +108,7 @@ class RequestUtilsTest extends PHPUnit\Framework\TestCase
         $_SERVER["x-client-ip"] = "f71f:5bf9:25ff:1883:a8c4:eeff:7b80:aa2d";
 
         $client_ip = Utils::clientIpFromRequest($options);
+        unset($_SERVER["x-client-ip"]);
         $this->assertEquals("f71f:5bf9:25ff:1883:a8c4:eeff:7b80:aa2d", $client_ip);
     }
 
@@ -108,6 +118,7 @@ class RequestUtilsTest extends PHPUnit\Framework\TestCase
         $_SERVER["x-client-ip"] = "141.246.115.116, 203.0.113.1, 12.34.56.3";
 
         $client_ip = Utils::clientIpFromRequest($options);
+        unset($_SERVER["x-client-ip"]);
         $this->assertEquals("141.246.115.116", $client_ip);
     }
 
@@ -117,6 +128,7 @@ class RequestUtilsTest extends PHPUnit\Framework\TestCase
         $_SERVER["x-real-ip"] = "f71f:5bf9:25ff:1883:a8c4:eeff:7b80:aa2d";
 
         $client_ip = Utils::clientIpFromRequest($options);
+        unset($_SERVER["x-real-ip"]);
         $this->assertEquals("f71f:5bf9:25ff:1883:a8c4:eeff:7b80:aa2d", $client_ip);
     }
 
@@ -126,6 +138,7 @@ class RequestUtilsTest extends PHPUnit\Framework\TestCase
         $_SERVER["x-real-ip"] = "141.246.115.116, 203.0.113.1, 12.34.56.3";
 
         $client_ip = Utils::clientIpFromRequest($options);
+        unset($_SERVER["x-real-ip"]);
         $this->assertEquals("141.246.115.116", $client_ip);
     }
 
@@ -135,6 +148,7 @@ class RequestUtilsTest extends PHPUnit\Framework\TestCase
         $_SERVER["forwarded-for"] = "f71f:5bf9:25ff:1883:a8c4:eeff:7b80:aa2d";
 
         $client_ip = Utils::clientIpFromRequest($options);
+        unset($_SERVER["forwarded-for"]);
         $this->assertEquals("f71f:5bf9:25ff:1883:a8c4:eeff:7b80:aa2d", $client_ip);
     }
 
@@ -144,6 +158,7 @@ class RequestUtilsTest extends PHPUnit\Framework\TestCase
         $_SERVER["forwarded-for"] = "141.246.115.116, 203.0.113.1, 12.34.56.3";
 
         $client_ip = Utils::clientIpFromRequest($options);
+        unset($_SERVER["forwarded-for"]);
         $this->assertEquals("141.246.115.116", $client_ip);
     }
 
@@ -153,6 +168,7 @@ class RequestUtilsTest extends PHPUnit\Framework\TestCase
         $_SERVER["x-cluster-client-ip"] = "f71f:5bf9:25ff:1883:a8c4:eeff:7b80:aa2d";
 
         $client_ip = Utils::clientIpFromRequest($options);
+        unset($_SERVER["x-cluster-client-ip"]);
         $this->assertEquals("f71f:5bf9:25ff:1883:a8c4:eeff:7b80:aa2d", $client_ip);
     }
 
@@ -162,6 +178,7 @@ class RequestUtilsTest extends PHPUnit\Framework\TestCase
         $_SERVER["x-cluster-client-ip"] = "141.246.115.116, 203.0.113.1, 12.34.56.3";
 
         $client_ip = Utils::clientIpFromRequest($options);
+        unset($_SERVER["x-cluster-client-ip"]);
         $this->assertEquals("141.246.115.116", $client_ip);
     }
 
@@ -171,6 +188,7 @@ class RequestUtilsTest extends PHPUnit\Framework\TestCase
         $_SERVER["x-forwarded"] = "f71f:5bf9:25ff:1883:a8c4:eeff:7b80:aa2d";
 
         $client_ip = Utils::clientIpFromRequest($options);
+        unset($_SERVER["x-forwarded"]);
         $this->assertEquals("f71f:5bf9:25ff:1883:a8c4:eeff:7b80:aa2d", $client_ip);
     }
 
@@ -180,6 +198,7 @@ class RequestUtilsTest extends PHPUnit\Framework\TestCase
         $_SERVER["x-forwarded"] = "141.246.115.116, 203.0.113.1, 12.34.56.3";
 
         $client_ip = Utils::clientIpFromRequest($options);
+        unset($_SERVER["x-forwarded"]);
         $this->assertEquals("141.246.115.116", $client_ip);
     }
 
@@ -189,6 +208,7 @@ class RequestUtilsTest extends PHPUnit\Framework\TestCase
         $_SERVER["forwarded"] = "f71f:5bf9:25ff:1883:a8c4:eeff:7b80:aa2d";
 
         $client_ip = Utils::clientIpFromRequest($options);
+        unset($_SERVER["forwarded"]);
         $this->assertEquals("f71f:5bf9:25ff:1883:a8c4:eeff:7b80:aa2d", $client_ip);
     }
 
@@ -198,6 +218,7 @@ class RequestUtilsTest extends PHPUnit\Framework\TestCase
         $_SERVER["forwarded"] = "141.246.115.116, 203.0.113.1, 12.34.56.3";
 
         $client_ip = Utils::clientIpFromRequest($options);
+        unset($_SERVER["forwarded"]);
         $this->assertEquals("141.246.115.116", $client_ip);
     }
 
@@ -207,6 +228,7 @@ class RequestUtilsTest extends PHPUnit\Framework\TestCase
         $_SERVER["via"] = "f71f:5bf9:25ff:1883:a8c4:eeff:7b80:aa2d";
 
         $client_ip = Utils::clientIpFromRequest($options);
+        unset($_SERVER["via"]);
         $this->assertEquals("f71f:5bf9:25ff:1883:a8c4:eeff:7b80:aa2d", $client_ip);
     }
 
@@ -216,6 +238,7 @@ class RequestUtilsTest extends PHPUnit\Framework\TestCase
         $_SERVER["via"] = "141.246.115.116, 203.0.113.1, 12.34.56.3";
 
         $client_ip = Utils::clientIpFromRequest($options);
+        unset($_SERVER["via"]);
         $this->assertEquals("141.246.115.116", $client_ip);
     }
 
@@ -225,6 +248,7 @@ class RequestUtilsTest extends PHPUnit\Framework\TestCase
         $_SERVER["HTTP_X_CLIENT_IP"] = "f71f:5bf9:25ff:1883:a8c4:eeff:7b80:aa2d";
 
         $client_ip = Utils::clientIpFromRequest($options);
+        unset($_SERVER["HTTP_X_CLIENT_IP"]);
         $this->assertEquals("f71f:5bf9:25ff:1883:a8c4:eeff:7b80:aa2d", $client_ip);
     }
 
@@ -234,6 +258,7 @@ class RequestUtilsTest extends PHPUnit\Framework\TestCase
         $_SERVER["HTTP_X_CLIENT_IP"] = "141.246.115.116, 203.0.113.1, 12.34.56.3";
 
         $client_ip = Utils::clientIpFromRequest($options);
+        unset($_SERVER["HTTP_X_CLIENT_IP"]);
         $this->assertEquals("141.246.115.116", $client_ip);
     }
 
@@ -245,6 +270,9 @@ class RequestUtilsTest extends PHPUnit\Framework\TestCase
         $_SERVER["HTTP_X_CLIENT_IP"] = "198.51.100.102";
 
         $client_ip = Utils::clientIpFromRequest($options);
+        unset($_SERVER["HTTP_X_FORWARDED_FOR"]);
+        unset($_SERVER["HTTP_X_REAL_IP"]);
+        unset($_SERVER["HTTP_X_CLIENT_IP"]);
         $this->assertEquals("203.0.113.1", $client_ip);
     }
 
@@ -255,6 +283,8 @@ class RequestUtilsTest extends PHPUnit\Framework\TestCase
         $_SERVER["HTTP_X_CLIENT_IP"] = "203.0.113.1, 141.246.115.116, 12.34.56.3";
 
         $client_ip = Utils::clientIpFromRequest($options);
+        unset($_SERVER["HTTP_X_REAL_IP"]);
+        unset($_SERVER["HTTP_X_CLIENT_IP"]);
         $this->assertEquals("203.0.113.1", $client_ip);
     }
 }
