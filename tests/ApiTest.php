@@ -26,7 +26,6 @@ final class ApiTest extends PHPUnit\Framework\TestCase
         SecureNative::init(self::TEST_API_KEY, $options, $eventManager);
         $trackObject = mock_track_object();
 
-
         $callbackRes = null;
         SecureNative::track($trackObject, function ($params) use (&$callbackRes) {
             $callbackRes = $params;

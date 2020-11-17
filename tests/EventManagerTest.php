@@ -105,7 +105,6 @@ final class EventManagerTest extends PHPUnit\Framework\TestCase
         $this->assertNull($callbackRes, 'Track callback should not be called');
     }
 
-
     public function testSendAsync()
     {
         $options = new SecureNativeOptions(self::TEST_API_KEY, "http://testushim.com");
@@ -133,5 +132,4 @@ final class EventManagerTest extends PHPUnit\Framework\TestCase
         $this->assertObjectHasAttribute('prop1', $callbackRes->{'properties'});
         $this->assertObjectHasAttribute('prop2', $callbackRes->{'properties'});
     }
-
 }

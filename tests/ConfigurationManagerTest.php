@@ -92,7 +92,7 @@ final class ConfigurationManagerTest extends PHPUnit\Framework\TestCase
     {
         $testKeys = $this->getConfigTestKeys();
 
-        // Set env for each ovject item
+        // Set env for each object item
         foreach ($testKeys as $key => $item) {
             putenv("$key=" . $item->value);
         }
@@ -126,7 +126,7 @@ final class ConfigurationManagerTest extends PHPUnit\Framework\TestCase
     {
         $testKeys = $this->getConfigTestKeys();
 
-        // Set env for each ovject item
+        // Set env for each object item
         foreach ($testKeys as $key => $item) {
             putenv("$key=" . $item->value);
         }

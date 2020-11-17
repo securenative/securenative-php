@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1605604249">
-  <project timestamp="1605604249">
+<coverage generated="1605614915">
+  <project timestamp="1605614915">
     <package name="SecureNative\sdk">
       <file name="/Users/inbaltako/code/securenative-php/src/ConfigurationManager.php">
         <class name="SecureNative\sdk\ConfigurationManager" namespace="SecureNative\sdk">
