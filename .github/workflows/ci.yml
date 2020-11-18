@@ -27,7 +27,7 @@ jobs:
       - uses: nanasess/setup-php@master
       - uses: php-actions/phpunit@v9
         with:
-          configuration: tests/phpunit.xml
+          configuration: ./phpunit.xml
           args: --coverage-text
 
       - name: Publish to codecov
