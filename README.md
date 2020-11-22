@@ -68,9 +68,9 @@ Attach `securenative.json` file to your root folder:
 
 ```json
 {
-  "SECURENATIVE_API_KEY": "SOME_API_KEY",
-  "SECURENATIVE_APP_NAME": "SOME_APP_NAME",
-  "SECURENATIVE_API_URL": "SOME_API_URL",
+  "SECURENATIVE_API_KEY": "YOUR_API_KEY",
+  "SECURENATIVE_APP_NAME": "APP_NAME",
+  "SECURENATIVE_API_URL": "API_URL",
   "SECURENATIVE_INTERVAL": 1000,
   "SECURENATIVE_MAX_EVENTS": 100,
   "SECURENATIVE_TIMEOUT": 1500,
@@ -161,10 +161,12 @@ SecureNative::track(array(
 **Example**
 
 ```php
+$options = new SecureNativeOptions();
+
 $ver = SecureNative::verify(array(
     'event' => EventTypes::VERIFY,
     'userId' => '1234',
-    'context' => SecureNativeContext::fromRequest(),
+    'context' => SecureNative::fromRequest(),
     'userTraits' => (object)[
         'name' => 'Your Name',
         'email' => 'name@gmail.com'
@@ -187,3 +189,27 @@ if ($verified) {
     // Request is trusted (coming from SecureNative) 
 }
  ```
+
+## Extract proxy headers from cloud providers
+
+You can specify custom header keys to allow extraction of client ip from different providers.
+This example demonstrates the usage of proxy headers for ip extraction from Cloudflare.
+
+### Option 1: Using config file
+```json
+{
+    "SECURENATIVE_API_KEY": "YOUR_API_KEY",
+    "SECURENATIVE_PROXY_HEADERS": ["CF-Connecting-IP"]
+}
+```
+
+Initialize sdk as shown above.
+
+### Options 2: Using ConfigurationBuilder
+
+```php
+$options = new SecureNativeOptions();
+$options->setProxyHeaders(["CF-Connecting-IP"]);
+
+SecureNative::init();
+``` 

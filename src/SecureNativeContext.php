@@ -35,11 +35,11 @@ class SecureNativeContext
         $this->body = $body;
     }
 
-    public static function fromRequest() : SecureNativeContext
+    public static function fromRequest($options) : SecureNativeContext
     {
-        $clientToken = Utils::cookieIdFromRequest() ? Utils::cookieIdFromRequest() : Utils::securHeaderFromRequest();
-        $ip = Utils::clientIpFromRequest();
-        $remoteIp = Utils::clientIpFromRequest();
+        $clientToken = Utils::cookieIdFromRequest() ? Utils::cookieIdFromRequest() : Utils::secureHeaderFromRequest();
+        $ip = Utils::clientIpFromRequest($options);
+        $remoteIp = Utils::clientIpFromRequest($options);
         $headers =  Utils::headersFromRequest();
         $url =  Utils::urlFromRequest();
         $method =  Utils::methodFromRequest();

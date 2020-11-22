@@ -14,6 +14,7 @@ class SecureNativeOptions
     private $disable;
     private $logLevel;
     private $failoverStrategy;
+    private $proxyHeaders;
 
     // Needed for option merging
     private $default = array(
@@ -26,9 +27,10 @@ class SecureNativeOptions
         "disable" => false,
         "logLevel" => 'fatal',
         "failoverStrategy" => 'fail-open',
+        "proxyHeaders" => array(),
     );
 
-    public function __construct($apiKey = null, $apiUrl = null, $interval = null, $maxEvents = null, $timeout = null, $autoSend = null, $disable = null, $logLevel = null, $failoverStrategy = null)
+    public function __construct($apiKey = null, $apiUrl = null, $interval = null, $maxEvents = null, $timeout = null, $autoSend = null, $disable = null, $logLevel = null, $failoverStrategy = null, $proxyHeaders = null)
     {
         $this->apiKey = isset($apiKey) ? $apiKey : $this->default["apiKey"];
         $this->apiUrl = isset($apiUrl) ? $apiUrl : $this->default["apiUrl"];
@@ -39,6 +41,7 @@ class SecureNativeOptions
         $this->disable = isset($disable) ? $disable : $this->default["disable"];
         $this->logLevel = isset($logLevel) ? $logLevel : $this->default["logLevel"];
         $this->failoverStrategy = isset($failoverStrategy) ? $failoverStrategy : $this->default["failoverStrategy"];
+        $this->proxyHeaders = isset($proxyHeaders) ? $proxyHeaders : $this->default["proxyHeaders"];
     }
 
     /**
@@ -204,6 +207,24 @@ class SecureNativeOptions
     }
 
     /**
+     * @return array
+     */
+    public function getProxyHeaders(): array
+    {
+        return $this->proxyHeaders;
+    }
+
+    /**
+     * @param array $proxyHeaders
+     * @return SecureNativeOptions
+     */
+    public function setProxyHeaders(array $proxyHeaders): SecureNativeOptions
+    {
+        $this->proxyHeaders = $proxyHeaders;
+        return $this;
+    }
+
+    /**
      * Merge an existing `SecureNativeOptions` object into an existing one
      * @param SecureNativeOptions $options
      */
@@ -217,5 +238,6 @@ class SecureNativeOptions
         $options->isDisable() != $this->default["disable"] ? $this->setDisable($options->isDisable()) : null;
         $options->getLogLevel() != $this->default["logLevel"] ? $this->setLogLevel($options->getLogLevel()) : null;
         $options->getFailoverStrategy() != $this->default["failoverStrategy"] ? $this->setFailoverStrategy($options->getFailoverStrategy()) : null;
+        $options->getProxyHeaders() != $this->default["proxyHeaders"] ? $this->setProxyHeaders($options->getProxyHeaders()) : null;
     }
 }

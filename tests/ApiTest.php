@@ -1,15 +1,9 @@
 <?php
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Psr7\Response;
 use SecureNative\sdk\EventManager;
-use SecureNative\sdk\EventTypes;
 use SecureNative\sdk\SecureNative;
 use SecureNative\sdk\SecureNativeContext;
 use SecureNative\sdk\SecureNativeOptions;
-use SecureNative\sdk\VerifyResult;
 
 require_once 'MockUtils.php';
 
@@ -31,7 +25,6 @@ final class ApiTest extends PHPUnit\Framework\TestCase
         $eventManager = new EventManager(self::TEST_API_KEY, $options, getClient());
         SecureNative::init(self::TEST_API_KEY, $options, $eventManager);
         $trackObject = mock_track_object();
-
 
         $callbackRes = null;
         SecureNative::track($trackObject, function ($params) use (&$callbackRes) {

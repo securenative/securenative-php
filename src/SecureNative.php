@@ -95,20 +95,6 @@ class SecureNative
         return self::$eventManager->sendSync($event, $requestUrl);
     }
 
-    public static function getRequestContext()
-    {
-        return SecureNativeContext::fromRequest();
-    }
-
-    /**
-     * @deprecated use `getRequestContext()` instead
-     * @return SecureNativeContext
-     */
-    public static function contextFromContext()
-    {
-        return SecureNativeContext::fromRequest();
-    }
-
     public static function getMiddleware()
     {
         return self::$middleware;
@@ -120,6 +106,14 @@ class SecureNative
     public static function getApiKey()
     {
         return self::$apiKey;
+    }
+
+    /**
+     * @return SecureNativeContext
+     */
+    public static function fromRequest()
+    {
+        return SecureNativeContext::fromRequest(self::$options);
     }
 
     /**

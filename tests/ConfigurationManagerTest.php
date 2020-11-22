@@ -33,6 +33,7 @@ final class ConfigurationManagerTest extends PHPUnit\Framework\TestCase
         $this->assertArrayHasKey('autoSend', $arr);
         $this->assertArrayHasKey('disable', $arr);
         $this->assertArrayHasKey('logLevel', $arr);
+        $this->assertArrayHasKey('proxyHeaders', $arr);
     }
 
     public function testUnknownKeys()
@@ -91,7 +92,7 @@ final class ConfigurationManagerTest extends PHPUnit\Framework\TestCase
     {
         $testKeys = $this->getConfigTestKeys();
 
-        // Set env for each ovject item
+        // Set env for each object item
         foreach ($testKeys as $key => $item) {
             putenv("$key=" . $item->value);
         }
@@ -125,7 +126,7 @@ final class ConfigurationManagerTest extends PHPUnit\Framework\TestCase
     {
         $testKeys = $this->getConfigTestKeys();
 
-        // Set env for each ovject item
+        // Set env for each object item
         foreach ($testKeys as $key => $item) {
             putenv("$key=" . $item->value);
         }
@@ -142,6 +143,7 @@ final class ConfigurationManagerTest extends PHPUnit\Framework\TestCase
         $this->assertEquals(true, $options->isAutoSend());
         $this->assertEquals(false, $options->isDisable());
         $this->assertEquals("fatal", $options->getLogLevel());
+        $this->assertEquals(["CF-Connecting-IP", "Some-Random-IP"], $options->getProxyHeaders());
 
         foreach ($testKeys as $key => $item) {
             // Clear env variables after test

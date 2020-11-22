@@ -1,8 +1,6 @@
 <?php
 
-use SecureNative\sdk\EventTypes;
 use SecureNative\sdk\SecureNative;
-use SecureNative\sdk\SecureNativeContext;
 use SecureNative\sdk\SecureNativeOptions;
 
 final class AgentTest extends PHPUnit\Framework\TestCase
@@ -18,7 +16,8 @@ final class AgentTest extends PHPUnit\Framework\TestCase
 
     public function testApiKeyException()
     {
-        $context = SecureNativeContext::fromRequest();
+        $options = new SecureNativeOptions();
+        $context = SecureNative::fromRequest($options);
 
 //        SecureNative::track(array(
 //            'event' => EventTypes::LOG_IN,
