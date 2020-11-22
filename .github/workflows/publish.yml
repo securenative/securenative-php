@@ -26,8 +26,7 @@ jobs:
       - name: Publish
         uses: musps/action-deployer-php@master
         with:
-          env:
-            SSH_PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          SSH_PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
 
       - name: Create changelog
         uses: heinrichreimer/github-changelog-generator-action@v2.1.1
