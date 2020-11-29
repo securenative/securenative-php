@@ -16,6 +16,8 @@ function getConfigMap()
         'SECURENATIVE_LOG_LEVEL' => (object)['name' => 'logLevel', 'type' => 'string'],
         'SECURENATIVE_FAILOVER_STRATEGY' => (object)['name' => 'failoverStrategy', 'type' => 'string'],
         'SECURENATIVE_PROXY_HEADERS' => (object)['name' => 'proxyHeaders', 'type' => 'array'],
+        'SECURENATIVE_PII_HEADERS' => (object)['name' => 'proxyHeaders', 'type' => 'array'],
+        'SECURENATIVE_PII_REGEX_PATTERN' => (object)['name' => 'proxyHeaders', 'type' => 'string'],
     ];
 }
 
@@ -108,6 +110,8 @@ class ConfigurationManager
             $getConfigOrEnv('logLevel', 'SECURENATIVE_LOG_LEVEL'),
             $getConfigOrEnv('failoverStrategy', 'SECURENATIVE_FAILOVER_STRATEGY'),
             $getConfigOrEnv('proxyHeaders', 'SECURENATIVE_PROXY_HEADERS'),
+            $getConfigOrEnv('piiHeaders', 'SECURENATIVE_PII_HEADERS'),
+            $getConfigOrEnv('piiRegex', 'SECURENATIVE_PII_REGEX_PATTERN')
         );
     }
 
@@ -123,6 +127,4 @@ class ConfigurationManager
         }
         return self::$config;
     }
-
-
 }

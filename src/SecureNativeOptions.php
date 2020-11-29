@@ -15,6 +15,8 @@ class SecureNativeOptions
     private $logLevel;
     private $failoverStrategy;
     private $proxyHeaders;
+    private $piiHeaders;
+    private $piiRegexPattern;
 
     // Needed for option merging
     private $default = array(
@@ -28,9 +30,11 @@ class SecureNativeOptions
         "logLevel" => 'fatal',
         "failoverStrategy" => 'fail-open',
         "proxyHeaders" => array(),
+        "piiHeaders" => array(),
+        "piiRegexPattern" => ""
     );
 
-    public function __construct($apiKey = null, $apiUrl = null, $interval = null, $maxEvents = null, $timeout = null, $autoSend = null, $disable = null, $logLevel = null, $failoverStrategy = null, $proxyHeaders = null)
+    public function __construct($apiKey = null, $apiUrl = null, $interval = null, $maxEvents = null, $timeout = null, $autoSend = null, $disable = null, $logLevel = null, $failoverStrategy = null, $proxyHeaders = null, $piiHeaders = null, $piiRegex = null)
     {
         $this->apiKey = isset($apiKey) ? $apiKey : $this->default["apiKey"];
         $this->apiUrl = isset($apiUrl) ? $apiUrl : $this->default["apiUrl"];
@@ -42,6 +46,8 @@ class SecureNativeOptions
         $this->logLevel = isset($logLevel) ? $logLevel : $this->default["logLevel"];
         $this->failoverStrategy = isset($failoverStrategy) ? $failoverStrategy : $this->default["failoverStrategy"];
         $this->proxyHeaders = isset($proxyHeaders) ? $proxyHeaders : $this->default["proxyHeaders"];
+        $this->piiHeaders = isset($piiHeaders) ? $piiHeaders : $this->default["piiHeaders"];
+        $this->piiRegexPattern = isset($piiRegexPattern) ? $piiRegexPattern : $this->default["piiRegexPattern"];
     }
 
     /**
@@ -225,6 +231,42 @@ class SecureNativeOptions
     }
 
     /**
+     * @return array
+     */
+    public function getPiiHeaders(): array
+    {
+        return $this->piiHeaders;
+    }
+
+    /**
+     * @param array $piiHeaders
+     * @return SecureNativeOptions
+     */
+    public function setPiiHeaders(array $piiHeaders): SecureNativeOptions
+    {
+        $this->piiHeaders = $piiHeaders;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPiiRegexPattern(): string
+    {
+        return $this->piiRegexPattern;
+    }
+
+    /**
+     * @param string $piiRegexPattern
+     * @return SecureNativeOptions
+     */
+    public function setPiiRegexPattern(string $piiRegexPattern): SecureNativeOptions
+    {
+        $this->piiRegexPattern = $piiRegexPattern;
+        return $this;
+    }
+
+    /**
      * Merge an existing `SecureNativeOptions` object into an existing one
      * @param SecureNativeOptions $options
      */
@@ -239,5 +281,7 @@ class SecureNativeOptions
         $options->getLogLevel() != $this->default["logLevel"] ? $this->setLogLevel($options->getLogLevel()) : null;
         $options->getFailoverStrategy() != $this->default["failoverStrategy"] ? $this->setFailoverStrategy($options->getFailoverStrategy()) : null;
         $options->getProxyHeaders() != $this->default["proxyHeaders"] ? $this->setProxyHeaders($options->getProxyHeaders()) : null;
+        $options->getPiiHeaders() != $this->default["piiHeaders"] ? $this->setPiiHeaders($options->getPiiHeaders()) : null;
+        $options->getPiiRegexPattern() != $this->default["piiRegexPattern"] ? $this->setPiiRegexPattern($options->getPiiRegexPattern()) : null;
     }
 }
