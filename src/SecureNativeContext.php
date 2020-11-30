@@ -40,7 +40,7 @@ class SecureNativeContext
         $clientToken = Utils::cookieIdFromRequest() ? Utils::cookieIdFromRequest() : Utils::secureHeaderFromRequest();
         $ip = Utils::clientIpFromRequest($options);
         $remoteIp = Utils::clientIpFromRequest($options);
-        $headers =  Utils::headersFromRequest();
+        $headers =  Utils::headersFromRequest($options);
         $url =  Utils::urlFromRequest();
         $method =  Utils::methodFromRequest();
         $body = null;

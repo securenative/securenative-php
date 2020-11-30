@@ -5,7 +5,8 @@ namespace SecureNative\sdk;
 const ALGORITHM = "AES-256-CBC";
 const BLOCK_SIZE = 16;
 const AES_KEY_SIZE = 32;
-const IP_HEADERS = ["HTTP_X_FORWARDED_FOR", "X_FORWARDED_FOR", "HTTP_X_CLIENT_IP", "HTTP_X_REAL_IP", "REMOTE_ADDR", "x-forwarded-for", "x-client-ip", "x-real-ip", "x-forwarded", "x-cluster-client-ip", "forwarded-for", "forwarded", "via"];
+const IP_HEADERS = ["HTTP_X_FORWARDED_FOR", "X_FORWARDED_FOR", "HTTP_X_CLIENT_IP", "HTTP_X_REAL_IP", "HTTP_REMOTE_ADDR", "x-forwarded-for", "x-client-ip", "x-real-ip", "x-forwarded", "x-cluster-client-ip", "forwarded-for", "forwarded", "via"];
+const PII_HEADERS = ['HTTP_AUTHORIZATION', 'HTTP_ACCESS_TOKEN', 'HTTP_APIKEY', 'HTTP_PASSWORD', 'HTTP_PASSWD', 'HTTP_SECRET', 'HTTP_API_KEY'];
 
 abstract class Utils
 {
@@ -48,16 +49,36 @@ abstract class Utils
     }
 
 
-    public static function headersFromRequest()
+    public static function headersFromRequest($options)
     {
         $headers = array();
-        foreach ($_SERVER as $key => $val) {
-            if (substr($key, 0, 5) == 'HTTP_') {
-                $name = strtolower(substr($key, 5));
-                $name = str_replace("_", "-", $name);
-                $headers[$name] = $val;
+        if (!empty($options) && count($options->getPiiHeaders()) > 0) {
+            foreach ($_SERVER as $key => $val) {
+                if (substr($key, 0, 5) == 'HTTP_' && !array_key_exists($key, PII_HEADERS)) {
+                    $name = strtolower(substr($key, 5));
+                    $name = str_replace("_", "-", $name);
+                    $headers[$name] = $val;
+                }
+            }
+        } else if (!empty($options) && $options->getPiiRegexPattern() != null) {
+            $pattern = $options->getPiiRegexPattern();
+            foreach ($_SERVER as $key => $val) {
+                if (substr($key, 0, 5) == 'HTTP_' && preg_match($pattern, $key)) {
+                    $name = strtolower(substr($key, 5));
+                    $name = str_replace("_", "-", $name);
+                    $headers[$name] = $val;
+                }
+            }
+        } else {
+            foreach ($_SERVER as $key => $val) {
+                if (substr($key, 0, 5) == 'HTTP_' && !in_array($key, PII_HEADERS) && !in_array(strtoupper($key), PII_HEADERS)) {
+                    $name = strtolower(substr($key, 5));
+                    $name = str_replace("_", "-", $name);
+                    $headers[$name] = $val;
+                }
             }
         }
+
         return $headers;
     }
 
@@ -126,7 +147,8 @@ abstract class Utils
         }
     }
 
-    public static function encrypt($plainText, $cipherKey) {
+    public static function encrypt($plainText, $cipherKey)
+    {
         $iv = openssl_random_pseudo_bytes(BLOCK_SIZE);
 
         if ($encrypted = openssl_encrypt($plainText, ALGORITHM, $cipherKey, true, $iv)) {

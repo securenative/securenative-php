@@ -213,3 +213,28 @@ $options->setProxyHeaders(["CF-Connecting-IP"]);
 
 SecureNative::init();
 ``` 
+
+
+## Remove PII Data From Headers
+
+By default, SecureNative SDK remove any known pii headers from the received request.
+We also support using custom pii headers and regex matching via configuration, for example:
+
+### Option 1: Using config file
+```json
+{
+    "SECURENATIVE_API_KEY": "YOUR_API_KEY",
+    "SECURENATIVE_PII_HEADERS": ["apiKey"]
+}
+```
+
+Initialize sdk as shown above.
+
+### Options 2: Using ConfigurationBuilder
+
+```php
+$options = new SecureNativeOptions();
+$options->setPiiRegexPattern("/http_auth_/i");
+
+SecureNative::init();
+``` 

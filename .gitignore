@@ -23,3 +23,4 @@ dist/
 coverage/
 
 .idea
+.phpunit.result
